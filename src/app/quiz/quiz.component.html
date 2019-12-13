@@ -1,0 +1,25 @@
+<div class="container">
+  <!-- <div class="row"> -->
+    <h2>
+      Question {{ activeQuestion + 1 }}
+    </h2>
+
+    <h3>
+      {{ questions[activeQuestion].title }}
+    </h3>
+    
+    <form class="form" role="form">
+      <ul>
+        <li *ngFor="let option of questions[activeQuestion].options; let i = index">
+          <input type="radio" name="optradio" id="{{i}}" (change)="onOptionChange($event)" [attr.value]="option">{{ option }}
+        </li>
+      </ul>
+    </form>
+
+  <!-- </div> -->
+
+  <!-- <div class="row"> -->
+    <button class="btn btn-primary mr-3" (click)="onPrevQuestion()" [disabled]="isPrevButtonDisabled">Previous</button>
+    <button class="btn btn-primary" (click)="onNextQuestion()" [disabled]="isNextButtonDisabled">Next</button>
+  <!-- </div> -->
+</div>
