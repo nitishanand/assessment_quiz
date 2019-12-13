@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { DomchangedirectiveDirective } from './domchangedirective.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    QuizComponent
+    QuizComponent,
+    DomchangedirectiveDirective
   ],
   imports: [
     BrowserModule,

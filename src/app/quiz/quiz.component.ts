@@ -15,7 +15,7 @@ export class QuizComponent implements OnInit {
   // store the number of active question
   activeQuestion: number = 0;
 
-  userSelection = [];
+  userSelectionArray = [];
 
   // variables for toggling disabled state of Next and Previous buttons
   isNextButtonDisabled = false;
@@ -56,6 +56,7 @@ export class QuizComponent implements OnInit {
     if (!(this.activeQuestion < 0)) {
       this.activeQuestion--;
       // console.log(this.activeQuestion);
+      setTimeout(() => this.onPopulateOptions(this.userSelectionArray, this.activeQuestion), 1000);
     } else {
       this.isPrevButtonDisabled = true;
       return this.questions.length;
@@ -68,8 +69,8 @@ export class QuizComponent implements OnInit {
 
     // on each button click check if the active question is the first question to disable previous button
     this.isFirstQuestion();
-    
-    this.onPopulateOptions();
+
+    // this.onPopulateOptions();
   }
 
   isFirstQuestion() {
@@ -87,20 +88,36 @@ export class QuizComponent implements OnInit {
   }
 
   onOptionChange(el) {
-    if (this.userSelection.length) {
-      this.userSelection[this.activeQuestion] = +el.target.id;
+    if (this.userSelectionArray.length) {
+      this.userSelectionArray[this.activeQuestion] = +el.target.id;
     } else {
-      this.userSelection.push(+el.target.id);
+      this.userSelectionArray.push(+el.target.id);
     }
 
     // this.isNextButtonDisabled = false;
 
-    console.log(this.userSelection);
+    console.log(this.userSelectionArray);
   }
 
-  onPopulateOptions() {
-    // document.getElementById(this.activeQuestion).setAttribute('checked', true);
-    console.log(document.getElementById(this.userSelection[this.activeQuestion]));
+  onPopulateOptions(userAnswer, activeQuestion) {
+    let target = <HTMLCollection> document.getElementsByClassName('option-list');
+    let optionList = target[0].children;
+    // let userSelection = this.userSelectionArray[this.activeQuestion];
+
+    /* for (let i = 0; i < optionList.length; i++) {
+      console.log(optionList[i]);
+    } */
+
+    
+
+    // console.log(target[0].children);
+    const input = target[0].children[this.userSelectionArray[this.activeQuestion]].children[0] as HTMLInputElement;
+    /* target.childNodes.forEach((data) => {
+      console.log(data);
+    }); */
+    input.checked = true;
+
+    // console.log(this.userSelectionArray[this.activeQuestion]);
   }
 
 }

@@ -9,9 +9,10 @@
     </h3>
     
     <form class="form" role="form">
-      <ul>
+      <ul class="option-list">
         <li *ngFor="let option of questions[activeQuestion].options; let i = index">
-          <input type="radio" name="optradio" id="{{i}}" (change)="onOptionChange($event)" [attr.value]="option">{{ option }}
+          <input type="radio" name="optradio" id="{{i}}" (change)="onOptionChange($event)" [attr.value]="option">
+          {{ option }}
         </li>
       </ul>
     </form>
