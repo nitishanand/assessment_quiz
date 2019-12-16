@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Question } from '../interfaces/question';
 import { QuizQuestionsService } from '../service/quiz-questions.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { QuizQuestionsService } from '../service/quiz-questions.service';
 })
 export class QuizComponent implements OnInit {
   // storage for all the questions once quiz is intialized
-  questions: Array<object>;
+  questionsList: Question[] = [];
 
   // currentQuestion: Array<object>;
 
@@ -18,27 +19,27 @@ export class QuizComponent implements OnInit {
   userSelectionArray = [];
 
   // variables for toggling disabled state of Next and Previous buttons
-  isNextButtonDisabled = false;
+  isNextButtonDisabled = true;
   isPrevButtonDisabled = true;
+  // isNextButtonVisible = true;
+  isSubmitButtonVisible = false;
 
   constructor(private quizQuestionsService: QuizQuestionsService) { }
 
   // Get list of questions once component is initialized
   ngOnInit() {
     this.quizQuestionsService.getQuestions().subscribe((res) => {
-      this.questions = res;
+      this.questionsList = res;
     });
   }
 
   onNextQuestion() {
-    // console.log('Next button clicked');
-
-    if (!(this.activeQuestion >= this.questions.length - 1)) {
+    if (!(this.activeQuestion >= this.questionsList.length - 1)) {
       this.activeQuestion++;
-      // console.log(this.activeQuestion);
+      setTimeout(() => this.onPopulateOptions(this.userSelectionArray, this.activeQuestion), 100);
     } else {
       this.isNextButtonDisabled = true;
-      return this.questions.length;
+      return this.questionsList.length;
     }
 
     // enable the previous button if active question is greater than 1
@@ -46,7 +47,7 @@ export class QuizComponent implements OnInit {
       this.isPrevButtonDisabled = false;
     }
 
-    // this.isNextButtonDisabled = true;
+    this.isNextButtonDisabled = true;
 
     // on each button click check if the active question is the last question to disable next button
     this.isLastQuestion();
@@ -55,15 +56,14 @@ export class QuizComponent implements OnInit {
   onPrevQuestion() {
     if (!(this.activeQuestion < 0)) {
       this.activeQuestion--;
-      // console.log(this.activeQuestion);
-      setTimeout(() => this.onPopulateOptions(this.userSelectionArray, this.activeQuestion), 1000);
+      setTimeout(() => this.onPopulateOptions(this.userSelectionArray, this.activeQuestion), 100);
     } else {
       this.isPrevButtonDisabled = true;
-      return this.questions.length;
+      return this.questionsList.length;
     }
 
     // enable the next button if active question is less than length of questions
-    if (this.activeQuestion < this.questions.length - 1) {
+    if (this.activeQuestion < this.questionsList.length - 1) {
       this.isNextButtonDisabled = false;
     }
 
@@ -75,26 +75,38 @@ export class QuizComponent implements OnInit {
 
   isFirstQuestion() {
     if (this.activeQuestion === 0) {
-      // console.log('This is first question');
+      console.log('First question');
       this.isPrevButtonDisabled = true;
     }
   }
 
   isLastQuestion() {
-    if (this.activeQuestion === this.questions.length - 1) {
-      // console.log('This is last question');
+    if (this.activeQuestion === this.questionsList.length - 1) {
+      console.log('Last question');
       this.isNextButtonDisabled = true;
+
+      // this.isNextButtonVisible = false;
+      // this.isSubmitButtonVisible = true;
     }
   }
 
   onOptionChange(el) {
-    if (this.userSelectionArray.length) {
-      this.userSelectionArray[this.activeQuestion] = +el.target.id;
-    } else {
-      this.userSelectionArray.push(+el.target.id);
+    if (!(this.activeQuestion === this.questionsList.length)) {
+      console.log(this.userSelectionArray.length);
+      if (this.userSelectionArray.length) {
+        this.userSelectionArray[this.activeQuestion] = +el.target.id;
+      } else {
+        this.userSelectionArray.push(+el.target.id);
+      }
+
+      this.isNextButtonDisabled = false;
     }
 
-    // this.isNextButtonDisabled = false;
+    console.log(this.activeQuestion);
+    if (this.activeQuestion === this.questionsList.length - 1) {
+      this.isNextButtonDisabled = true;
+      this.isSubmitButtonVisible = true;
+    }
 
     console.log(this.userSelectionArray);
   }
@@ -102,22 +114,28 @@ export class QuizComponent implements OnInit {
   onPopulateOptions(userAnswer, activeQuestion) {
     let target = <HTMLCollection> document.getElementsByClassName('option-list');
     let optionList = target[0].children;
-    // let userSelection = this.userSelectionArray[this.activeQuestion];
+    let input;
 
-    /* for (let i = 0; i < optionList.length; i++) {
-      console.log(optionList[i]);
-    } */
+    if (this.userSelectionArray[this.activeQuestion] >= 0) {
+      // console.log(this.userSelectionArray[this.activeQuestion]);
+      input = optionList[this.userSelectionArray[this.activeQuestion]].children[0] as HTMLInputElement;
 
-    
+      input.checked = true;
 
-    // console.log(target[0].children);
-    const input = target[0].children[this.userSelectionArray[this.activeQuestion]].children[0] as HTMLInputElement;
-    /* target.childNodes.forEach((data) => {
-      console.log(data);
-    }); */
-    input.checked = true;
+      if (input.checked) {
+        // console.log('already visited');
 
-    // console.log(this.userSelectionArray[this.activeQuestion]);
+        this.isNextButtonDisabled = false;
+      }
+    }
+
+    if (this.activeQuestion === this.questionsList.length - 1) {
+      this.isNextButtonDisabled = true;
+    }
+  }
+
+  onSubmitQuiz() {
+
   }
 
 }

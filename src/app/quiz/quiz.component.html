@@ -1,16 +1,16 @@
 <div class="container">
   <!-- <div class="row"> -->
     <h2>
-      Question {{ activeQuestion + 1 }}
+      Question {{ activeQuestion + 1 }} of {{ questionsList.length }}
     </h2>
 
     <h3>
-      {{ questions[activeQuestion].title }}
+      {{ questionsList[activeQuestion]?.title }}
     </h3>
     
     <form class="form" role="form">
       <ul class="option-list">
-        <li *ngFor="let option of questions[activeQuestion].options; let i = index">
+        <li *ngFor="let option of questionsList[activeQuestion]?.options; let i = index">
           <input type="radio" name="optradio" id="{{i}}" (change)="onOptionChange($event)" [attr.value]="option">
           {{ option }}
         </li>
@@ -21,6 +21,7 @@
 
   <!-- <div class="row"> -->
     <button class="btn btn-primary mr-3" (click)="onPrevQuestion()" [disabled]="isPrevButtonDisabled">Previous</button>
-    <button class="btn btn-primary" (click)="onNextQuestion()" [disabled]="isNextButtonDisabled">Next</button>
+    <button class="btn btn-primary mr-3" (click)="onNextQuestion()" [disabled]="isNextButtonDisabled">Next</button>
+    <button class="btn btn-secondary" (click)="onSubmitQuiz()" *ngIf="isSubmitButtonVisible">Submit</button>
   <!-- </div> -->
 </div>

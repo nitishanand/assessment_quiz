@@ -1,39 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
+import { Question } from '../interfaces/question';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+const api_url = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuizQuestionsService {
-  quizQuestions = [
-    {
-      "id": 1,
-      "title": "What is full form of CSS?",
-      "options": [
-          'Copying Style Sheets', 'Cascading Style Sheets', 'Containing Style Sheets', 'None of the above'
-        ]
-    },
-    {
-      "id": 2,
-      "title": "Is JavaScript a programming language?",
-      "options": [
-        'Yes', 'No'
-      ]
-    },
-    {
-      "id": 3,
-      "title": "Which doc-type is valid in HTML5?",
-      "options": [
-        '<html>', '<!doctype html>', '<!html doctype="strict">', 'None of the above'
-      ]
-    }
-  ];
-
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
   getQuestions() {
-    // return this.quizQuestions;
-    return of(this.quizQuestions);
+    return this.httpClient.get<Question[]>(api_url + '/questions').pipe(catchError(this.handleError));
+  }
+
+  // handling errors
+  private handleError(errorResponse: HttpErrorResponse) {
+    if (errorResponse.error instanceof ErrorEvent) {
+      console.error('Client side error: ' + errorResponse.error.message);
+    } else {
+      console.error('Server side error: ' + errorResponse);
+    }
+
+    return throwError('There is a problem with the service. We are notified and working on it. Please try again later.');
   }
 }

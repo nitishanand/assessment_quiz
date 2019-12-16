@@ -1,0 +1,44 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "title": "What is full form of CSS?",
+      "options": [
+        "Copying Style Sheets", "Cascading Style Sheets", "Containing Style Sheets", "None of the above"
+      ],
+      "min_exp": 0
+    },
+    {
+      "id": 2,
+      "title": "Is JavaScript a programming language?",
+      "options": [
+        "True", "False"
+      ],
+      "min_exp": 0
+    },
+    {
+      "id": 3,
+      "title": "Which doc-type is valid in HTML5?",
+      "options": [
+        "<html>", "<!doctype html>", "<!html doctype='strict'>", "None of the above"
+      ],
+      "min_exp": 0
+    },
+    {
+      "id": 4,
+      "title": "Is JavaScript a loosely typed language?",
+      "options": [
+        "True", "False"
+      ],
+      "min_exp": 0
+    },
+    {
+      "id": 5,
+      "title": "Which method is used to capitalize text in JavaScript?",
+      "options": [
+        ".toCapitalize()", ".capitalize()", ".toUpperCase()", "upperCase()"
+      ],
+      "min_exp": 0
+    }
+  ]
+}
