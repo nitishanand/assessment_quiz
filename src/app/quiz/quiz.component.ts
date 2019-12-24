@@ -75,14 +75,14 @@ export class QuizComponent implements OnInit {
 
   isFirstQuestion() {
     if (this.activeQuestion === 0) {
-      console.log('First question');
+      // console.log('First question');
       this.isPrevButtonDisabled = true;
     }
   }
 
   isLastQuestion() {
     if (this.activeQuestion === this.questionsList.length - 1) {
-      console.log('Last question');
+      // console.log('Last question');
       this.isNextButtonDisabled = true;
 
       // this.isNextButtonVisible = false;
@@ -92,7 +92,7 @@ export class QuizComponent implements OnInit {
 
   onOptionChange(el) {
     if (!(this.activeQuestion === this.questionsList.length)) {
-      console.log(this.userSelectionArray.length);
+      // console.log(this.userSelectionArray.length);
       if (this.userSelectionArray.length) {
         this.userSelectionArray[this.activeQuestion] = +el.target.id;
       } else {
@@ -102,13 +102,13 @@ export class QuizComponent implements OnInit {
       this.isNextButtonDisabled = false;
     }
 
-    console.log(this.activeQuestion);
+    // console.log(this.activeQuestion);
     if (this.activeQuestion === this.questionsList.length - 1) {
       this.isNextButtonDisabled = true;
       this.isSubmitButtonVisible = true;
     }
 
-    console.log(this.userSelectionArray);
+    // console.log(this.userSelectionArray);
   }
 
   onPopulateOptions(userAnswer, activeQuestion) {
