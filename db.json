@@ -6,7 +6,9 @@
       "options": [
         "Copying Style Sheets", "Cascading Style Sheets", "Containing Style Sheets", "None of the above"
       ],
-      "min_exp": 0
+      "answer": "Cascading Style Sheets",
+      "min_exp": 0,
+      "max_exp": 1
     },
     {
       "id": 2,
@@ -14,7 +16,9 @@
       "options": [
         "True", "False"
       ],
-      "min_exp": 0
+      "answer": "False",
+      "min_exp": 0,
+      "max_exp": 1
     },
     {
       "id": 3,
@@ -22,7 +26,9 @@
       "options": [
         "<html>", "<!doctype html>", "<!html doctype='strict'>", "None of the above"
       ],
-      "min_exp": 0
+      "answer": "<!doctype html>",
+      "min_exp": 0,
+      "max_exp": 1
     },
     {
       "id": 4,
@@ -30,7 +36,9 @@
       "options": [
         "True", "False"
       ],
-      "min_exp": 0
+      "answer": "True",
+      "min_exp": 0,
+      "max_exp": 1
     },
     {
       "id": 5,
@@ -38,7 +46,9 @@
       "options": [
         ".toCapitalize()", ".capitalize()", ".toUpperCase()", "upperCase()"
       ],
-      "min_exp": 0
+      "answer": ".toUpperCase()",
+      "min_exp": 0,
+      "max_exp": 1
     }
   ]
 }

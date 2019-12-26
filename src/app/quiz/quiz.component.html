@@ -1,27 +1,30 @@
-<div class="container">
-  <!-- <div class="row"> -->
-    <h2>
-      Question {{ activeQuestion + 1 }} of {{ questionsList.length }}
-    </h2>
+<div class="container" *ngIf="!assessmentCompleted; else otherContent">
+  <h2 class="question-count">
+    Question {{ activeQuestion + 1 }} of {{ questionsList.length }}
+  </h2>
 
-    <h3>
-      {{ questionsList[activeQuestion]?.title }}
-    </h3>
-    
-    <form class="form" role="form">
-      <ul class="option-list">
-        <li *ngFor="let option of questionsList[activeQuestion]?.options; let i = index">
-          <input type="radio" name="optradio" id="{{i}}" (change)="onOptionChange($event)" [attr.value]="option">
-          {{ option }}
-        </li>
-      </ul>
-    </form>
+  <h3 class="question-title">
+    {{ questionsList[activeQuestion]?.title }}
+  </h3>
 
-  <!-- </div> -->
+  <form class="form" role="form">
+    <ul class="option-list">
+      <li *ngFor="let option of questionsList[activeQuestion]?.options; let i = index">
+        <input type="radio" name="optradio" id="{{i}}" (change)="onOptionChange($event)" [attr.value]="option">
+        {{ option }}
+      </li>
+    </ul>
+  </form>
 
-  <!-- <div class="row"> -->
-    <button class="btn btn-primary mr-3" (click)="onPrevQuestion()" [disabled]="isPrevButtonDisabled">Previous</button>
-    <button class="btn btn-primary mr-3" (click)="onNextQuestion()" [disabled]="isNextButtonDisabled">Next</button>
-    <button class="btn btn-secondary" (click)="onSubmitQuiz()" *ngIf="isSubmitButtonVisible">Submit</button>
-  <!-- </div> -->
+  <button class="btn btn-primary mr-3" (click)="onPrevQuestion()" [disabled]="isPrevButtonDisabled">Previous</button>
+  <button class="btn btn-primary mr-3" (click)="onNextQuestion()" [disabled]="isNextButtonDisabled">Next</button>
+  <button class="btn btn-secondary" (click)="onSubmitQuiz()" *ngIf="isSubmitButtonVisible">Submit</button>
 </div>
+
+<!-- display the message if assessment is submitted by user -->
+<ng-template #otherContent>
+  <div class="container">
+    <p>Your assessment is complete.</p>
+    <p>You scored {{ assessmentScore }} out of {{ questionsList.length }} questions attempted.</p>
+  </div>
+</ng-template>

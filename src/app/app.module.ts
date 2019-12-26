@@ -8,6 +8,8 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { DomchangedirectiveDirective } from './domchangedirective.directive';
+import { AppRoutingModule } from './app-routing.module';
+import { QuizQuestionsService } from './service/quiz-questions.service';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,10 @@ import { DomchangedirectiveDirective } from './domchangedirective.directive';
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [QuizQuestionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

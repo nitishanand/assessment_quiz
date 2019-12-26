@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Question } from '../interfaces/question';
 import { QuizQuestionsService } from '../service/quiz-questions.service';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-quiz',
@@ -8,15 +9,19 @@ import { QuizQuestionsService } from '../service/quiz-questions.service';
   styleUrls: ['./quiz.component.css']
 })
 export class QuizComponent implements OnInit {
+  @Output() userScore = new EventEmitter<number>();
+  
   // storage for all the questions once quiz is intialized
   questionsList: Question[] = [];
+  answersList: string[] = [];
 
   // currentQuestion: Array<object>;
 
   // store the number of active question
   activeQuestion: number = 0;
 
-  userSelectionArray = [];
+  userSelectionOptionArray = [];
+  userSelectionAnswerArray = [];
 
   // variables for toggling disabled state of Next and Previous buttons
   isNextButtonDisabled = true;
@@ -24,19 +29,30 @@ export class QuizComponent implements OnInit {
   // isNextButtonVisible = true;
   isSubmitButtonVisible = false;
 
+  assessmentScore = 0;
+  assessmentCompleted = false;
+
   constructor(private quizQuestionsService: QuizQuestionsService) { }
 
   // Get list of questions once component is initialized
   ngOnInit() {
     this.quizQuestionsService.getQuestions().subscribe((res) => {
       this.questionsList = res;
+
+      for (let i = 0; i < this.questionsList.length; i++) {
+        this.answersList.push(this.questionsList[i].answer);
+      }
+
+      // console.log(this.answersList);
     });
+
+
   }
 
   onNextQuestion() {
     if (!(this.activeQuestion >= this.questionsList.length - 1)) {
       this.activeQuestion++;
-      setTimeout(() => this.onPopulateOptions(this.userSelectionArray, this.activeQuestion), 100);
+      setTimeout(() => this.onPopulateOptions(this.userSelectionOptionArray, this.activeQuestion), 100);
     } else {
       this.isNextButtonDisabled = true;
       return this.questionsList.length;
@@ -56,7 +72,7 @@ export class QuizComponent implements OnInit {
   onPrevQuestion() {
     if (!(this.activeQuestion < 0)) {
       this.activeQuestion--;
-      setTimeout(() => this.onPopulateOptions(this.userSelectionArray, this.activeQuestion), 100);
+      setTimeout(() => this.onPopulateOptions(this.userSelectionOptionArray, this.activeQuestion), 100);
     } else {
       this.isPrevButtonDisabled = true;
       return this.questionsList.length;
@@ -92,11 +108,13 @@ export class QuizComponent implements OnInit {
 
   onOptionChange(el) {
     if (!(this.activeQuestion === this.questionsList.length)) {
-      // console.log(this.userSelectionArray.length);
-      if (this.userSelectionArray.length) {
-        this.userSelectionArray[this.activeQuestion] = +el.target.id;
+      // console.log(this.userSelectionOptionArray.length);
+      if (this.userSelectionOptionArray.length) {
+        this.userSelectionOptionArray[this.activeQuestion] = +el.target.id;
+        this.userSelectionAnswerArray[this.activeQuestion] = el.target.value;
       } else {
-        this.userSelectionArray.push(+el.target.id);
+        this.userSelectionOptionArray.push(+el.target.id);
+        this.userSelectionAnswerArray.push(el.target.value);
       }
 
       this.isNextButtonDisabled = false;
@@ -108,7 +126,9 @@ export class QuizComponent implements OnInit {
       this.isSubmitButtonVisible = true;
     }
 
-    // console.log(this.userSelectionArray);
+    // console.log(this.answersList);
+    /* console.log(this.userSelectionOptionArray);
+    console.log(this.userSelectionAnswerArray); */
   }
 
   onPopulateOptions(userAnswer, activeQuestion) {
@@ -116,9 +136,9 @@ export class QuizComponent implements OnInit {
     let optionList = target[0].children;
     let input;
 
-    if (this.userSelectionArray[this.activeQuestion] >= 0) {
-      // console.log(this.userSelectionArray[this.activeQuestion]);
-      input = optionList[this.userSelectionArray[this.activeQuestion]].children[0] as HTMLInputElement;
+    if (this.userSelectionOptionArray[this.activeQuestion] >= 0) {
+      // console.log(this.userSelectionOptionArray[this.activeQuestion]);
+      input = optionList[this.userSelectionOptionArray[this.activeQuestion]].children[0] as HTMLInputElement;
 
       input.checked = true;
 
@@ -135,7 +155,19 @@ export class QuizComponent implements OnInit {
   }
 
   onSubmitQuiz() {
+    let assessmentScoreArray: any[] = [];
+    // let assessmentScore = 0;
 
+    for (let i = 0; i < this.questionsList.length; i++) {
+      if (this.userSelectionAnswerArray[i] === this.answersList[i]) {
+        this.assessmentScore += 1;
+      }
+    }
+
+    this.assessmentCompleted = true;
+    // this.userScore.emit(assessmentScore);
+
+    // console.log(assessmentScore);
   }
 
 }
