@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!assessmentCompleted; else otherContent">
+<div *ngIf="!assessmentCompleted; else otherContent">
   <h2 class="question-count">
     Question {{ activeQuestion + 1 }} of {{ questionsList.length }}
   </h2>
@@ -23,8 +23,6 @@
 
 <!-- display the message if assessment is submitted by user -->
 <ng-template #otherContent>
-  <div class="container">
-    <p>Your assessment is complete.</p>
-    <p>You scored {{ assessmentScore }} out of {{ questionsList.length }} questions attempted.</p>
-  </div>
+  <p>Your assessment is complete.</p>
+  <p>You scored {{ assessmentScore }} out of {{ questionsList.length }} questions attempted.</p>
 </ng-template>

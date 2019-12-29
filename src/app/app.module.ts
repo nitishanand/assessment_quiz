@@ -10,6 +10,7 @@ import { QuizComponent } from './quiz/quiz.component';
 import { DomchangedirectiveDirective } from './domchangedirective.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { QuizQuestionsService } from './service/quiz-questions.service';
+import { LoginComponent } from './shared/login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { QuizQuestionsService } from './service/quiz-questions.service';
     HeaderComponent,
     FooterComponent,
     QuizComponent,
-    DomchangedirectiveDirective
+    DomchangedirectiveDirective,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

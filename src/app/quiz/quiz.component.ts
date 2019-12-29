@@ -9,26 +9,25 @@ import { EventEmitter } from '@angular/core';
   styleUrls: ['./quiz.component.css']
 })
 export class QuizComponent implements OnInit {
-  @Output() userScore = new EventEmitter<number>();
-  
+  // @Output() userScore = new EventEmitter<number>();
+
   // storage for all the questions once quiz is intialized
   questionsList: Question[] = [];
   answersList: string[] = [];
 
-  // currentQuestion: Array<object>;
-
-  // store the number of active question
+  // store the active question number
   activeQuestion: number = 0;
 
+  // store options selected by the user along with answers received from database
   userSelectionOptionArray = [];
   userSelectionAnswerArray = [];
 
   // variables for toggling disabled state of Next and Previous buttons
   isNextButtonDisabled = true;
   isPrevButtonDisabled = true;
-  // isNextButtonVisible = true;
   isSubmitButtonVisible = false;
 
+  // store assessment score along with status of assessment
   assessmentScore = 0;
   assessmentCompleted = false;
 
@@ -42,11 +41,7 @@ export class QuizComponent implements OnInit {
       for (let i = 0; i < this.questionsList.length; i++) {
         this.answersList.push(this.questionsList[i].answer);
       }
-
-      // console.log(this.answersList);
     });
-
-
   }
 
   onNextQuestion() {
@@ -67,6 +62,8 @@ export class QuizComponent implements OnInit {
 
     // on each button click check if the active question is the last question to disable next button
     this.isLastQuestion();
+
+    console.log(this.userSelectionAnswerArray);
   }
 
   onPrevQuestion() {
@@ -91,24 +88,18 @@ export class QuizComponent implements OnInit {
 
   isFirstQuestion() {
     if (this.activeQuestion === 0) {
-      // console.log('First question');
       this.isPrevButtonDisabled = true;
     }
   }
 
   isLastQuestion() {
     if (this.activeQuestion === this.questionsList.length - 1) {
-      // console.log('Last question');
       this.isNextButtonDisabled = true;
-
-      // this.isNextButtonVisible = false;
-      // this.isSubmitButtonVisible = true;
     }
   }
 
   onOptionChange(el) {
     if (!(this.activeQuestion === this.questionsList.length)) {
-      // console.log(this.userSelectionOptionArray.length);
       if (this.userSelectionOptionArray.length) {
         this.userSelectionOptionArray[this.activeQuestion] = +el.target.id;
         this.userSelectionAnswerArray[this.activeQuestion] = el.target.value;
@@ -120,15 +111,10 @@ export class QuizComponent implements OnInit {
       this.isNextButtonDisabled = false;
     }
 
-    // console.log(this.activeQuestion);
     if (this.activeQuestion === this.questionsList.length - 1) {
       this.isNextButtonDisabled = true;
       this.isSubmitButtonVisible = true;
     }
-
-    // console.log(this.answersList);
-    /* console.log(this.userSelectionOptionArray);
-    console.log(this.userSelectionAnswerArray); */
   }
 
   onPopulateOptions(userAnswer, activeQuestion) {
@@ -137,14 +123,11 @@ export class QuizComponent implements OnInit {
     let input;
 
     if (this.userSelectionOptionArray[this.activeQuestion] >= 0) {
-      // console.log(this.userSelectionOptionArray[this.activeQuestion]);
       input = optionList[this.userSelectionOptionArray[this.activeQuestion]].children[0] as HTMLInputElement;
 
       input.checked = true;
 
       if (input.checked) {
-        // console.log('already visited');
-
         this.isNextButtonDisabled = false;
       }
     }
@@ -155,8 +138,7 @@ export class QuizComponent implements OnInit {
   }
 
   onSubmitQuiz() {
-    let assessmentScoreArray: any[] = [];
-    // let assessmentScore = 0;
+    // let assessmentScoreArray: any[] = [];
 
     for (let i = 0; i < this.questionsList.length; i++) {
       if (this.userSelectionAnswerArray[i] === this.answersList[i]) {
@@ -165,9 +147,8 @@ export class QuizComponent implements OnInit {
     }
 
     this.assessmentCompleted = true;
-    // this.userScore.emit(assessmentScore);
 
-    // console.log(assessmentScore);
+    console.log(this.answersList);
   }
 
 }

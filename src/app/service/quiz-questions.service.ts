@@ -15,7 +15,7 @@ export class QuizQuestionsService {
   constructor(private httpClient: HttpClient) { }
 
   getQuestions() {
-    return this.httpClient.get<Question[]>(api_url + '/questions').pipe(catchError(this.handleError));
+    return this.httpClient.get<Question[]>(api_url + '/api/questions').pipe(catchError(this.handleError));
   }
 
   // handling errors

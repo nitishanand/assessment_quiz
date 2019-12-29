@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'assessment-quiz';
+  userAssessmentScore: number;
+
+  onSubmitQuiz(userScore: number) {
+    this.userAssessmentScore = userScore;
+  }
 }
