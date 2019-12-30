@@ -11,6 +11,9 @@ import { DomchangedirectiveDirective } from './domchangedirective.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { QuizQuestionsService } from './service/quiz-questions.service';
 import { LoginComponent } from './shared/login/login.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { AddquestionComponent } from './admin/addquestion/addquestion.component';
 
 @NgModule({
   declarations: [
@@ -19,13 +22,15 @@ import { LoginComponent } from './shared/login/login.component';
     FooterComponent,
     QuizComponent,
     DomchangedirectiveDirective,
-    LoginComponent
+    LoginComponent,
+    AddquestionComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [QuizQuestionsService],
   bootstrap: [AppComponent]

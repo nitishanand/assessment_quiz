@@ -63,7 +63,7 @@ export class QuizComponent implements OnInit {
     // on each button click check if the active question is the last question to disable next button
     this.isLastQuestion();
 
-    console.log(this.userSelectionAnswerArray);
+    // console.log(this.userSelectionAnswerArray);
   }
 
   onPrevQuestion() {
@@ -148,7 +148,7 @@ export class QuizComponent implements OnInit {
 
     this.assessmentCompleted = true;
 
-    console.log(this.answersList);
+    // console.log(this.answersList);
   }
 
 }

@@ -1,0 +1,84 @@
+{
+  "configVersion": 1,
+  "timestamp": 1577712296555,
+  "index": "C:/Program Files/Git/assessment_quiz/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "C:/Program Files/Git/assessment_quiz/favicon.ico",
+        "C:/Program Files/Git/assessment_quiz/index.html",
+        "C:/Program Files/Git/assessment_quiz/main-es2015.50da9074f72580442727.js",
+        "C:/Program Files/Git/assessment_quiz/main-es5.50da9074f72580442727.js",
+        "C:/Program Files/Git/assessment_quiz/manifest.webmanifest",
+        "C:/Program Files/Git/assessment_quiz/polyfills-es2015.2987770fde9daa1d8a2e.js",
+        "C:/Program Files/Git/assessment_quiz/polyfills-es5.ef4b1e1fc703b3ff76e3.js",
+        "C:/Program Files/Git/assessment_quiz/runtime-es2015.edb2fcf2778e7bf1d426.js",
+        "C:/Program Files/Git/assessment_quiz/runtime-es5.edb2fcf2778e7bf1d426.js",
+        "C:/Program Files/Git/assessment_quiz/scripts.fd12c80ebcc479d5730a.js",
+        "C:/Program Files/Git/assessment_quiz/styles.ed2c695fb09e7d4ed028.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "C:/Program Files/Git/assessment_quiz/assets/icons/icon-128x128.png",
+        "C:/Program Files/Git/assessment_quiz/assets/icons/icon-144x144.png",
+        "C:/Program Files/Git/assessment_quiz/assets/icons/icon-152x152.png",
+        "C:/Program Files/Git/assessment_quiz/assets/icons/icon-192x192.png",
+        "C:/Program Files/Git/assessment_quiz/assets/icons/icon-384x384.png",
+        "C:/Program Files/Git/assessment_quiz/assets/icons/icon-512x512.png",
+        "C:/Program Files/Git/assessment_quiz/assets/icons/icon-72x72.png",
+        "C:/Program Files/Git/assessment_quiz/assets/icons/icon-96x96.png",
+        "C:/Program Files/Git/assessment_quiz/assets/images/logo.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "C:/Program Files/Git/assessment_quiz/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "C:/Program Files/Git/assessment_quiz/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "C:/Program Files/Git/assessment_quiz/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "C:/Program Files/Git/assessment_quiz/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "C:/Program Files/Git/assessment_quiz/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "C:/Program Files/Git/assessment_quiz/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "C:/Program Files/Git/assessment_quiz/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "C:/Program Files/Git/assessment_quiz/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "C:/Program Files/Git/assessment_quiz/assets/images/logo.png": "fbe313e2618cde29e0112f4d387249498ad51774",
+    "C:/Program Files/Git/assessment_quiz/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "C:/Program Files/Git/assessment_quiz/index.html": "e44f3eec2d14ab5118c4451204c7a25ddb2f854d",
+    "C:/Program Files/Git/assessment_quiz/main-es2015.50da9074f72580442727.js": "eabc6f998e3327e82db82dc05b388ca01b8a9166",
+    "C:/Program Files/Git/assessment_quiz/main-es5.50da9074f72580442727.js": "0fba261402121626484fb808de14ef304ff981dd",
+    "C:/Program Files/Git/assessment_quiz/manifest.webmanifest": "fd69ac9c6bc4d7a8623dafc5ad239d2ab35dfdcc",
+    "C:/Program Files/Git/assessment_quiz/polyfills-es2015.2987770fde9daa1d8a2e.js": "cf5cbfa9134716054fb479ab21362146cdf1f2ff",
+    "C:/Program Files/Git/assessment_quiz/polyfills-es5.ef4b1e1fc703b3ff76e3.js": "9ceb13edd4b10268f661814868dadb2b284f9745",
+    "C:/Program Files/Git/assessment_quiz/runtime-es2015.edb2fcf2778e7bf1d426.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "C:/Program Files/Git/assessment_quiz/runtime-es5.edb2fcf2778e7bf1d426.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "C:/Program Files/Git/assessment_quiz/scripts.fd12c80ebcc479d5730a.js": "3cd862c729402884f283baf8060520db545a6f19",
+    "C:/Program Files/Git/assessment_quiz/styles.ed2c695fb09e7d4ed028.css": "cecdd82c7b021522bb335b6c11330164c36c0d2b"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}

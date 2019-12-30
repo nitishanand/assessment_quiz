@@ -20,7 +20,8 @@ const routes: Routes = [
   }, */
   {
     path: '',
-    redirectTo: '/login',
+    // redirectTo: '/login',
+    redirectTo: '/questions',
     pathMatch: 'full'
   }
 ];
