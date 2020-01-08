@@ -49,6 +49,256 @@
       "answer": ".toUpperCase()",
       "min_exp": 0,
       "max_exp": 1
+    },
+    {
+      "id": 6,
+      "title": "Which of the following selector matches a element based on its id?",
+      "options": [
+        "The Id Selector", "The Universal Selector", "The Descendant Selector", "The Class Selector"
+      ],
+      "answer": "The Id Selector",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 7,
+      "title": "Which of the following selector selects all paragraph elements whose lang attribute contains the word 'fr'?",
+      "options": [
+        "p[lang]", "p[lang='fr']", "p[lang~='fr']", "p[lang|='fr']"
+      ],
+      "answer": "p[lang~='fr']",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 8,
+      "title": "Which of the following defines 1% of viewport height?",
+      "options": [
+        "px", "vh", "vw", "vmin"
+      ],
+      "answer": "vh",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 9,
+      "title": "Which of the following property is used to control the repetition of an image in the background?",
+      "options": [
+        "background-color", "background-image", "background-repeat", "background-position"
+      ],
+      "answer": "background-repeat",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 10,
+      "title": "Which of the following property is used to set the color of a text?",
+      "options": [
+        "color", "direction", "letter-spacing", "word-spacing"
+      ],
+      "answer": "color",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 11,
+      "title": "Which of the following property is used to set the opacity of an image?",
+      "options": [
+        "border", "height", "width", "-moz-opacity"
+      ],
+      "answer": "-moz-opacity",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 12,
+      "title": "Which of the following property of a anchor element signifies an element on which the user is currently clicking?",
+      "options": [
+        ":link", ":visited", ":hover", ":active"
+      ],
+      "answer": ":active",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 13,
+      "title": "Which of the following property changes the style of right border?",
+      "options": [
+        ":border-bottom-style", ":border-top-style", ":border-left-style", ":border-right-style"
+      ],
+      "answer": ":border-right-style",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 14,
+      "title": "Which of the following property changes the width of right border?",
+      "options": [
+        ":border-bottom-width", ":border-top-width", ":border-left-width", ":border-right-width"
+      ],
+      "answer": ":border-right-width",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 15,
+      "title": "Which of the following value of cursor shows it as the 'I' bar?",
+      "options": [
+        "crosshair", "default", "pointer", "move"
+      ],
+      "answer": "move",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 16,
+      "title": "The Default Value Of 'position' Attribute Is?",
+      "options": [
+        "Fixed", "Absolute", "Inherit", "Static"
+      ],
+      "answer": "Static",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 17,
+      "title": "Pseudo-classes In CSS",
+      "options": [
+        "Match A Specified Element", "Select The Active Links", "Are Used To Select All The Visited Links", "Are Used To Define A Special State Of An Element"
+      ],
+      "answer": "Are Used To Define A Special State Of An Element",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 18,
+      "title": "Which of the following function flips an element’s colors, for use by the filter property?",
+      "options": [
+        "image()", "flip()", "invert()", "contrast()"
+      ],
+      "answer": "invert()",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 19,
+      "title": "What is the CSS Property Equivalent for the attribute?",
+      "options": [
+        "text-decoration:reappear", "text-decoration:blink", "text-decoration:no-text", "none"
+      ],
+      "answer": "text-decoration:no-text",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 20,
+      "title": "In css what does “font-size” can be called as?",
+      "options": [
+        "Selector", "Rule", "Property", "Property-Name"
+      ],
+      "answer": "Property-Name",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 21,
+      "title": "Which of the following property sets the font size of text?",
+      "options": [
+        "text-size", "font-size", "size", "text"
+      ],
+      "answer": "font-size",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 22,
+      "title": "Which of the following Color Format is a CSS3 HSL value with a fourth value to set the alpha channel value for the color to define the opacity of the element?",
+      "options": [
+        "RGB Color", "RGBa Color", "HSL Color", "HSLa Color"
+      ],
+      "answer": "HSLa Color",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 23,
+      "title": "Which of the following property adjusts the font-size of the fallback fonts defined with font-family, so that the x-height is the same no matter what font is used?",
+      "options": [
+        "default", "font-size-fallback", "font-adjust", "font-size-adjust"
+      ],
+      "answer": "font-size-adjust",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 24,
+      "title": "Which of the following css property is used to define a delay before an animation starts?",
+      "options": [
+        "transform-delay", "delay-function", "delay-animation", "animation-delay"
+      ],
+      "answer": "animation-delay",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 25,
+      "title": "Which of the following is not an attribute used with SVG ellipse?",
+      "options": [
+        "cx", "cy", "rr", "ry"
+      ],
+      "answer": "rr",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 26,
+      "title": "Which of the following selector is used to selects siblings?",
+      "options": [
+        "::after", "E ~ F", ":checked", "E[attr^=value]"
+      ],
+      "answer": "E ~ F",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 27,
+      "title": "Which of the following CSS3 property specifies how nested elements are rendered in 3D space?",
+      "options": [
+        "transform", "transform-style", "transform-render", "none of the above"
+      ],
+      "answer": "transform-render",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 28,
+      "title": "Which of the following method skews an element along the X and Y-axis by the given angles using tranform?",
+      "options": [
+        "skewX()", "skewy()", "skew-X-Y()", "skew()"
+      ],
+      "answer": "skew()",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 29,
+      "title": "Which of the following outline-offset value sets the distance the outline is outset from the border edge?",
+      "options": [
+        "distance", "length", "initial", "all"
+      ],
+      "answer": "length",
+      "min_exp": 0,
+      "max_exp": 1
+    },
+    {
+      "id": 30,
+      "title": "Which of the following property defines the width of a rule between columns in a multicolumn text flow?",
+      "options": [
+        "column-rule-style", "column-width", "column-rule-width", "columns"
+      ],
+      "answer": "column-rule-width",
+      "min_exp": 0,
+      "max_exp": 1
     }
   ]
 }

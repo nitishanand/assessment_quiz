@@ -18,6 +18,10 @@ export class QuizQuestionsService {
     return this.httpClient.get<Question[]>(api_url + '/api/questions').pipe(catchError(this.handleError));
   }
 
+  getAnswers() {
+    return this.httpClient.get<Question[]>(api_url + '/api/answers').pipe(catchError(this.handleError));
+  }
+
   // handling errors
   private handleError(errorResponse: HttpErrorResponse) {
     if (errorResponse.error instanceof ErrorEvent) {

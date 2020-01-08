@@ -13,7 +13,7 @@ export class QuizComponent implements OnInit {
 
   // storage for all the questions once quiz is intialized
   questionsList: Question[] = [];
-  answersList: string[] = [];
+  answersList = [];
 
   // store the active question number
   activeQuestion: number = 0;
@@ -38,10 +38,20 @@ export class QuizComponent implements OnInit {
     this.quizQuestionsService.getQuestions().subscribe((res) => {
       this.questionsList = res;
 
-      for (let i = 0; i < this.questionsList.length; i++) {
+      /* for (let i = 0; i < this.questionsList.length; i++) {
         this.answersList.push(this.questionsList[i].answer);
+      } */
+    });
+
+    /* this.quizQuestionsService.getAnswers().subscribe((res) => {
+      // this.answersList = res;
+
+      for (let i = 0; i < res.length; i++) {
+        this.answersList.push(res[i].answer);
       }
     });
+
+    // console.log(this.answersList); */
   }
 
   onNextQuestion() {
@@ -140,15 +150,26 @@ export class QuizComponent implements OnInit {
   onSubmitQuiz() {
     // let assessmentScoreArray: any[] = [];
 
-    for (let i = 0; i < this.questionsList.length; i++) {
-      if (this.userSelectionAnswerArray[i] === this.answersList[i]) {
-        this.assessmentScore += 1;
+    this.quizQuestionsService.getAnswers().subscribe(
+      (res) => {
+      // this.answersList = res;
+
+      for (let i = 0; i < res.length; i++) {
+        this.answersList.push(res[i].answer);
       }
-    }
+    },
+    (err) => {
+      console.error(err);
+    },
+    () => {
+      for (let i = 0; i < this.questionsList.length; i++) {
+        if (this.userSelectionAnswerArray[i] === this.answersList[i]) {
+          this.assessmentScore += 1;
+        }
+      }
 
-    this.assessmentCompleted = true;
-
-    // console.log(this.answersList);
+      this.assessmentCompleted = true;
+    });
   }
 
 }

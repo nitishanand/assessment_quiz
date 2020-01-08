@@ -1,7 +1,6 @@
 export interface Question {
-  id?: number;
   title: string;
-  options?: [];
+  options?: string[];
   answer?: any;
   min_exp?: number;
   max_exp?: number;
