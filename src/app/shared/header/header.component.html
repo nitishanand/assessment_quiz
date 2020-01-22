@@ -2,16 +2,29 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-3">
-        <img src="../../assets/images/logo.png" alt="">
+        <a routerLink="/">
+          <img src="assets/images/logo.png" alt="">
+        </a>
       </div>
       <div class="col-9 text-right">
         <nav>
           <ul>
+            <!-- <li><a routerLink="/login">Login</a></li>
             <li><a routerLink="/questions">Questions</a></li>
             <li><a routerLink="/addquestion">Add Question</a></li>
-            <!-- <li><a href="#">Test 2</a></li> -->
+            <li><a routerLink="/register">Attempt Quiz</a></li> -->
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a>Log In</a>
+            </li>
+            <li>
+              <a>Log Out</a>
+            </li>
           </ul>
         </nav>
+        
       </div>
     </div>
   </div>

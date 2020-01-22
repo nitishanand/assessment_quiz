@@ -20,12 +20,12 @@
     </ul>
     
     <mat-form-field>
-      <input matInput type="text" name="answer" ngModel #answer="ngModel" placeholder="Correct Answer">
+      <input matInput required type="text" name="answer" ngModel #answer="ngModel" placeholder="Correct Answer">
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Minimum Experience:</mat-label>
-      <mat-select name="min_exp" ngModel #min_exp="ngModel">
+      <mat-select required name="min_exp" ngModel #min_exp="ngModel">
         <mat-option *ngFor="let year of experience" [value]="year.value">
           {{ year.viewValue }}
         </mat-option>
@@ -34,7 +34,7 @@
 
     <mat-form-field>
       <mat-label>Maximum Experience:</mat-label>
-      <mat-select name="max_exp" ngModel #max_exp="ngModel">
+      <mat-select required name="max_exp" ngModel #max_exp="ngModel">
         <mat-option *ngFor="let year of experience" [value]="year.value">
           {{ year.viewValue }}
         </mat-option>
@@ -43,7 +43,7 @@
 
     <mat-form-field>
       <mat-label>Question Type:</mat-label>
-      <mat-select name="question_type" ngModel #question_type="ngModel">
+      <mat-select required name="question_type" ngModel #question_type="ngModel">
         <mat-option *ngFor="let type of questionType" [value]="type.value">
           {{ type.viewValue }}
         </mat-option>

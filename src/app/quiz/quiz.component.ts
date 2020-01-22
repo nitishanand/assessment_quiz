@@ -2,6 +2,7 @@ import { Component, OnInit, Output } from '@angular/core';
 import { Question } from '../interfaces/question';
 import { QuizQuestionsService } from '../service/quiz-questions.service';
 import { EventEmitter } from '@angular/core';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-quiz',
@@ -10,6 +11,8 @@ import { EventEmitter } from '@angular/core';
 })
 export class QuizComponent implements OnInit {
   // @Output() userScore = new EventEmitter<number>();
+
+  userInfo: any[] = [];
 
   // storage for all the questions once quiz is intialized
   questionsList: Question[] = [];
@@ -31,17 +34,19 @@ export class QuizComponent implements OnInit {
   assessmentScore = 0;
   assessmentCompleted = false;
 
-  constructor(private quizQuestionsService: QuizQuestionsService) { }
+  constructor(
+    private quizQuestionsService: QuizQuestionsService
+  ) { }
 
   // Get list of questions once component is initialized
   ngOnInit() {
-    this.quizQuestionsService.getQuestions().subscribe((res) => {
+    /* this.quizQuestionsService.getQuestions().subscribe((res) => {
       this.questionsList = res;
 
-      /* for (let i = 0; i < this.questionsList.length; i++) {
-        this.answersList.push(this.questionsList[i].answer);
-      } */
-    });
+      // for (let i = 0; i < this.questionsList.length; i++) {
+      //   this.answersList.push(this.questionsList[i].answer);
+      // }
+    }); */
 
     /* this.quizQuestionsService.getAnswers().subscribe((res) => {
       // this.answersList = res;
@@ -52,6 +57,11 @@ export class QuizComponent implements OnInit {
     });
 
     // console.log(this.answersList); */
+
+    this.questionsList = this.getFromSession('quizQuestions');
+    this.userInfo = this.getFromSession('userDetails');
+
+    // console.log(this.userInfo[0]);
   }
 
   onNextQuestion() {
@@ -152,24 +162,88 @@ export class QuizComponent implements OnInit {
 
     this.quizQuestionsService.getAnswers().subscribe(
       (res) => {
-      // this.answersList = res;
+        // this.answersList = res;
 
-      for (let i = 0; i < res.length; i++) {
-        this.answersList.push(res[i].answer);
-      }
-    },
-    (err) => {
-      console.error(err);
-    },
-    () => {
-      for (let i = 0; i < this.questionsList.length; i++) {
-        if (this.userSelectionAnswerArray[i] === this.answersList[i]) {
-          this.assessmentScore += 1;
+        for (let i = 0; i < res.length; i++) {
+          this.answersList.push(res[i].answer);
         }
-      }
+      },
+      (err) => {
+        console.error(err);
+      },
+      () => {
+        for (let i = 0; i < this.questionsList.length; i++) {
+          if (this.userSelectionAnswerArray[i] === this.answersList[i]) {
+            this.assessmentScore += 1;
+          }
+        }
 
-      this.assessmentCompleted = true;
-    });
+        this.assessmentCompleted = true;
+
+        /* const user: User = {
+          name: ,
+          email: ,
+          experience: ,
+          score:
+        };
+
+        this.quizQuestionsService.addUserScore(this.userInfo); */
+
+        console.log(this.assessmentCompleted);
+
+        if (this.assessmentCompleted) {
+          console.log('assessment completed');
+          this.userInfo.push(this.assessmentScore);
+
+          const user: User = {
+            name: this.userInfo[0],
+            email: this.userInfo[1],
+            experience: this.userInfo[2],
+            score: this.userInfo[3]
+          };
+
+          this.quizQuestionsService.addUserScore(user).subscribe((data) => {
+            console.log(data);
+          });
+
+          /* this.addQuestionService.addQuestion(question).subscribe(
+            (data) => console.log(data),
+            (err) => {
+              
+            }
+          ); */
+        }
+
+
+        console.log(this.userInfo);
+      }
+    );
+  }
+
+  /* getFromSession(key) {
+    console.log('recived= key:' + key);
+    this.questionsList[key] = this.storage.get(key);
+    console.log(this.questionsList);
+  } */
+
+  /* getFromSession() {
+    if (sessionStorage) {
+      if (sessionStorage.getItem('quizQuestions')) {
+        return JSON.parse(sessionStorage.getItem('quizQuestions'));
+      } else {
+        console.log('does not exist');
+      }
+    }
+  } */
+
+  getFromSession(whatToSearch: string) {
+    if (sessionStorage) {
+      if (sessionStorage.getItem(whatToSearch)) {
+        return JSON.parse(sessionStorage.getItem(whatToSearch));
+      } else {
+        console.log('does not exist');
+      }
+    }
   }
 
 }

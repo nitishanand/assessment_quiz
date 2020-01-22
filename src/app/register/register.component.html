@@ -1,0 +1,50 @@
+<form #f="ngForm" (ngSubmit)="onSubmitForm(f)">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input
+    required
+    minlength="3"
+    ngModel
+    #name="ngModel"
+    type="text"
+    name="name"
+    id="name"
+    class="form-control" (change)="log(name)">
+    <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+      <div *ngIf="name.errors.required">
+        Name is required.
+      </div>
+      <div *ngIf="name.errors.minlength">
+        Name should be minimum {{ name.errors.minlength.requiredLength }} characters.
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <input
+    required
+    ngModel
+    #email="ngModel"
+    type="email"
+    name="email"
+    id="email"
+    class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="experience">Maximum Experience</label>
+    <select
+    required
+    [(ngModel)]="userExperience"
+    name="experience"
+    id="experience"
+    class="form-control">
+      <option *ngFor="let option of experience" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="f.invalid" [ngClass]="f.invalid ? 'disabled' : ''">Register</button>
+</form>

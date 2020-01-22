@@ -1,0 +1,15 @@
+<!-- <h1>Welcome, {{ userData[0] }}</h1> -->
+
+<p>Click the button below to begin your assessment.</p>
+
+<button (click)="beginQuiz()">Begin Assessment</button>
+
+<!-- <div *ngIf="serviceError; then serviceErrorContainer"></div> -->
+
+<div *ngIf="serviceError" class="mt-3">
+  {{ serviceErrorMessage }}
+</div>
+
+<ng-template #serviceErrorContainer>
+  {{ serviceErrorMessage }}
+</ng-template>

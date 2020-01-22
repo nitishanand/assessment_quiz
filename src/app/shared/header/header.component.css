@@ -16,3 +16,5 @@ nav ul li {
   display: inline-block;
   padding-left: 20px;
 }
+
+.navbar-right { color: #fff; margin-right: 0px !important}

@@ -3,8 +3,10 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { Question } from '../interfaces/question';
+import { User } from '../interfaces/user';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 
 const api_url = environment.apiUrl;
 
@@ -12,6 +14,9 @@ const api_url = environment.apiUrl;
   providedIn: 'root'
 })
 export class QuizQuestionsService {
+  public serviceError;
+  public serviceErrorMessage;
+
   constructor(private httpClient: HttpClient) { }
 
   getQuestions() {
@@ -22,14 +27,30 @@ export class QuizQuestionsService {
     return this.httpClient.get<Question[]>(api_url + '/api/answers').pipe(catchError(this.handleError));
   }
 
+  addUserScore(user: User) {
+    return this.httpClient.post(api_url + '/api/adduserscore', user);
+  }
+
   // handling errors
   private handleError(errorResponse: HttpErrorResponse) {
-    if (errorResponse.error instanceof ErrorEvent) {
-      console.error('Client side error: ' + errorResponse.error.message);
+    let errorMessage = '';
+    // console.log(errorResponse.error);
+
+    if (errorResponse instanceof ErrorEvent) {
+      // console.error('Client side error: ' + errorResponse.error.message);
+      errorMessage = `Error ${ errorResponse.message }`;
     } else {
-      console.error('Server side error: ' + errorResponse);
+      // console.log('Server side error: ' + errorResponse.message);
+      errorMessage = `Error: ${ errorResponse.status }, Message: ${ errorResponse.message}`
+      this.serviceErrorMessage = errorMessage;
     }
 
+    /* for (const property in errorResponse) {
+      console.log(property);
+    } */
+
     return throwError('There is a problem with the service. We are notified and working on it. Please try again later.');
+
+    return throwError(errorMessage);
   }
 }

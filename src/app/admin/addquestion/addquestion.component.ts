@@ -59,12 +59,18 @@ export class AddquestionComponent implements OnInit {
       return;
     }
 
-    this.addQuestionService.addQuestion(question).subscribe((data) => console.log(data));
+    this.addQuestionService.addQuestion(question).subscribe(
+      (data) => console.log(data),
+      (err) => {
+        
+      }
+    );
 
     // console.log(form.value.title);
 
     // Reset the previous field text
     form.resetForm();
+    this.onClearOptions();
   }
 
   onAddOption(option) {
@@ -82,6 +88,10 @@ export class AddquestionComponent implements OnInit {
 
   onRemoveOption(index) {
     this.optionsList.splice(index, 1);
+  }
+
+  onClearOptions() {
+    this.optionsList = [];
   }
 
 }
