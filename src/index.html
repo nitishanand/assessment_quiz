@@ -16,5 +16,29 @@
   </noscript>
 
   <app-root></app-root>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAxzk5rVltyCxDpqVOGGkvQFiK6l-CRrl4",
+      authDomain: "assessment-quiz.firebaseapp.com",
+      databaseURL: "https://assessment-quiz.firebaseio.com",
+      projectId: "assessment-quiz",
+      storageBucket: "assessment-quiz.appspot.com",
+      messagingSenderId: "24613965764",
+      appId: "1:24613965764:web:d0dbb4d26717cf5bfd9e91",
+      measurementId: "G-VXWNQE2PJG"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
 </body>
 </html>

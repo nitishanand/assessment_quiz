@@ -6,6 +6,7 @@ import { AddquestionComponent } from './admin/addquestion/addquestion.component'
 import { RegisterComponent } from './register/register.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { BeginComponent } from './begin/begin.component';
+import { AddrolesComponent } from './admin/addroles/addroles.component';
 // import { MatFormFieldModule, MatInputModule, MatRadioModule } from '@angular/material'
 
 const routes: Routes = [
@@ -30,13 +31,18 @@ const routes: Routes = [
       {
         path: 'addquestion',
         component: AddquestionComponent
+      },
+      {
+        path: 'addrole',
+        component: AddrolesComponent
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/register',
-    pathMatch: 'full'
+    // redirectTo: '/register',
+    // pathMatch: 'full'
+    component: RegisterComponent
   },
   {
     path: '**',

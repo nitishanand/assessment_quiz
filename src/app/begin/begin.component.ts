@@ -14,6 +14,8 @@ export class BeginComponent implements OnInit {
   serviceError = false;
   serviceErrorMessage;
 
+  userInfo: any[] = [];
+
   constructor(
     private quizQuestionsService: QuizQuestionsService,
     private router: Router,
@@ -21,6 +23,7 @@ export class BeginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.userInfo = this.getFromSession('userDetails');
   }
 
   beginQuiz() {
@@ -47,6 +50,16 @@ export class BeginComponent implements OnInit {
     console.log('received=key' + key + ', value: ' + val);
     this.storage.set(key, val);
     this.quizQuestions[key] = this.storage.get(key);
+  }
+
+  getFromSession(whatToSearch: string) {
+    if (sessionStorage) {
+      if (sessionStorage.getItem(whatToSearch)) {
+        return JSON.parse(sessionStorage.getItem(whatToSearch));
+      } else {
+        console.log('does not exist');
+      }
+    }
   }
 
 }

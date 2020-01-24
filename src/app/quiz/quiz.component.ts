@@ -198,7 +198,8 @@ export class QuizComponent implements OnInit {
           const user: User = {
             name: this.userInfo[0],
             email: this.userInfo[1],
-            experience: this.userInfo[2],
+            // experience: this.userInfo[2],
+            role: this.userInfo[2],
             score: this.userInfo[3]
           };
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
-// import { EventemitterService } from '../service/eventemitter.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+import { RolesService } from '../service/roles.service';
 
 @Component({
   selector: 'app-register',
@@ -10,43 +10,39 @@ import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  // @Output() userName = new EventEmitter<string[]>();
-
   userDetails: string[] = [];
 
   sub: Subscription;
 
-  userExperience;
+  roles: any[] = [];
 
-  experience = ['<2', '2+', '5+', '10+'];
+  /* userExperience;
+
+  experience = ['<2', '2+', '5+', '10+']; */
 
   constructor(
     // private eventEmitterService: EventemitterService,
     private router: Router,
+    private rolesService: RolesService,
     @Inject(SESSION_STORAGE) private storage: WebStorageService
   ) { }
 
   ngOnInit() {
+    this.rolesService.getRoles().subscribe((roles) => {
+      this.roles = roles;
+    });
   }
 
   onSubmitForm(form) {
-    /* console.log(form.controls.name.value);
-    console.log(form.controls.email.value); */
-    // console.log(form.controls);
-
     if (this.userDetails) {
       this.userDetails.push(form.controls.name.value);
       this.userDetails.push(form.controls.email.value);
-      this.userDetails.push(form.controls.experience.value);
+      // this.userDetails.push(form.controls.experience.value);
+      this.userDetails.push(form.controls.role.value);
     }
 
-    // console.log(this.userDetails);
-    // this.userName.emit(this.userDetails);
-    // this.eventEmitterService.sendMessage(this.userDetails);
-    // this.eventEmitterService.data = this.userDetails;
     this.saveInSession('userDetails', this.userDetails);
     this.router.navigate(['/begin']);
-    // this.sub = this.router.
   }
 
   log(form) {
@@ -54,7 +50,7 @@ export class RegisterComponent implements OnInit {
   }
 
   saveInSession(key, val) {
-    console.log('received=key' + key + ', value: ' + val);
+    // console.log('received=key' + key + ', value: ' + val);
     this.storage.set(key, val);
     this.userDetails[key] = this.storage.get(key);
   }

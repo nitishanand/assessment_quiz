@@ -1,8 +1,15 @@
-<!-- <h1>Welcome, {{ userData[0] }}</h1> -->
+<h1>Welcome, {{ userInfo[0] }}</h1>
+
+<ul>
+  <li>This assessment quiz will consist of &lt;&lt;number&gt;&gt; questions.</li>
+  <li>All questions are mandatory.</li>
+  <li>There won't be negative marking for wrong answers.</li>
+  <li>You will be able to navigate between questions by making use of "Previous" and "Next" buttons respectively.</li>
+</ul>
 
 <p>Click the button below to begin your assessment.</p>
 
-<button (click)="beginQuiz()">Begin Assessment</button>
+<button (click)="beginQuiz()" class="btn btn-primary">Begin Assessment</button>
 
 <!-- <div *ngIf="serviceError; then serviceErrorContainer"></div> -->
 

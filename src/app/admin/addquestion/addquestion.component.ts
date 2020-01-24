@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AddQuestionService } from 'src/app/service/add-question.service';
 import { Question } from 'src/app/interfaces/question';
+import { RolesService } from 'src/app/service/roles.service';
 
 @Component({
   selector: 'app-addquestion',
@@ -9,7 +10,7 @@ import { Question } from 'src/app/interfaces/question';
   styleUrls: ['./addquestion.component.css']
 })
 export class AddquestionComponent implements OnInit {
-  questionType = [
+  /* questionType = [
     {value: 'single', viewValue: 'Single Selection'},
     {value: 'multiple', viewValue: 'Multipe Selection'}
   ];
@@ -36,13 +37,19 @@ export class AddquestionComponent implements OnInit {
     {value: '18', viewValue: '18'},
     {value: '19', viewValue: '19'},
     {value: '20', viewValue: '20'}
-  ];
+  ]; */
+
+  roles: any[];
 
   optionsList: string[] = [];
 
-  constructor(public addQuestionService: AddQuestionService) { }
+  constructor(
+    public addQuestionService: AddQuestionService,
+    private rolesService: RolesService
+  ) { }
 
   ngOnInit() {
+    this.getRoles();
   }
 
   onAddQuestion(form: NgForm) {
@@ -50,9 +57,10 @@ export class AddquestionComponent implements OnInit {
       title: form.value.title,
       options: this.optionsList,
       answer: form.value.answer,
-      min_exp: form.value.min_exp,
+      /* min_exp: form.value.min_exp,
       max_exp: form.value.max_exp,
-      question_type: form.value.question_type
+      question_type: form.value.question_type */
+      role: form.value.role
     };
 
     if (form.invalid) {
@@ -92,6 +100,12 @@ export class AddquestionComponent implements OnInit {
 
   onClearOptions() {
     this.optionsList = [];
+  }
+
+  getRoles() {
+    this.rolesService.getRoles().subscribe((roles) => {
+      this.roles = roles;
+    });
   }
 
 }

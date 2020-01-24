@@ -27,6 +27,7 @@ import { RegisterComponent } from './register/register.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { EventemitterService } from './service/eventemitter.service';
 import { BeginComponent } from './begin/begin.component';
+import { AddrolesComponent } from './admin/addroles/addroles.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { BeginComponent } from './begin/begin.component';
     AddquestionComponent,
     RegisterComponent,
     NotFoundComponent,
-    BeginComponent
+    BeginComponent,
+    AddrolesComponent
   ],
   imports: [
     BrowserModule,

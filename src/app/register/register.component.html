@@ -1,3 +1,7 @@
+<p>
+  Kindly provide your Name, Email and Role applied for:
+</p>
+
 <form #f="ngForm" (ngSubmit)="onSubmitForm(f)">
   <div class="form-group">
     <label for="name">Name</label>
@@ -24,7 +28,7 @@
     <label for="email">Email Address</label>
     <input
     required
-    ngModel
+    ngModel [email]="true"
     #email="ngModel"
     type="email"
     name="email"
@@ -33,6 +37,20 @@
   </div>
 
   <div class="form-group">
+    <label for="role">Role</label>
+    <select
+    required
+    [(ngModel)]="userExperience"
+    name="role"
+    id="role"
+    class="form-control">
+      <option *ngFor="let role of roles" [value]="role.name">
+        {{ role.name }}
+      </option>
+    </select>
+  </div>
+
+  <!-- <div class="form-group">
     <label for="experience">Maximum Experience</label>
     <select
     required
@@ -44,7 +62,7 @@
         {{ option }}
       </option>
     </select>
-  </div>
+  </div> -->
 
   <button type="submit" class="btn btn-primary" [disabled]="f.invalid" [ngClass]="f.invalid ? 'disabled' : ''">Register</button>
 </form>
