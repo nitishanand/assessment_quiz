@@ -16,6 +16,8 @@ export class RegisterComponent implements OnInit {
 
   roles: any[] = [];
 
+  userSelectedRole = '';
+
   /* userExperience;
 
   experience = ['<2', '2+', '5+', '10+']; */
@@ -33,11 +35,17 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  onRoleSelectionChange(el) {
+    this.userSelectedRole = el.target.options[el.target.options.selectedIndex].text;
+    console.log(this.userSelectedRole);
+  }
+
   onSubmitForm(form) {
     if (this.userDetails) {
       this.userDetails.push(form.controls.name.value);
       this.userDetails.push(form.controls.email.value);
       // this.userDetails.push(form.controls.experience.value);
+      this.userDetails.push(this.userSelectedRole);
       this.userDetails.push(form.controls.role.value);
     }
 

@@ -3,5 +3,6 @@ export interface User {
   email: string;
   // experience: string;
   role: string;
+  shortrole: string;
   score?: number;
 }

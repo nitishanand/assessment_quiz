@@ -43,8 +43,8 @@
     [(ngModel)]="userExperience"
     name="role"
     id="role"
-    class="form-control">
-      <option *ngFor="let role of roles" [value]="role.name">
+    class="form-control" (change)="onRoleSelectionChange($event)">
+      <option *ngFor="let role of roles" [value]="role.shortrole">
         {{ role.name }}
       </option>
     </select>

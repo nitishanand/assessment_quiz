@@ -10,6 +10,7 @@ import { RolesService } from 'src/app/service/roles.service';
   styleUrls: ['./addroles.component.css']
 })
 export class AddrolesComponent implements OnInit {
+  rolesLoaded = false;
   availableRoles;
 
   constructor(
@@ -20,12 +21,16 @@ export class AddrolesComponent implements OnInit {
   ngOnInit() {
     this.rolesService.getRoles().subscribe((roles) => {
       this.availableRoles = roles;
+      this.rolesLoaded = true;
     });
   }
 
   onAddRole(form: NgForm) {
+    let shortName = form.value.role.replace(/\s/g, "");
+
     const role: Role = {
-      name: form.value.role
+      name: form.value.role,
+      shortrole: shortName
     };
 
     if (form.invalid) {

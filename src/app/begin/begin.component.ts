@@ -24,6 +24,8 @@ export class BeginComponent implements OnInit {
 
   ngOnInit() {
     this.userInfo = this.getFromSession('userDetails');
+
+    console.log(this.userInfo);
   }
 
   beginQuiz() {
@@ -33,7 +35,7 @@ export class BeginComponent implements OnInit {
       this.router.navigate(['/quiz']);
     }); */
 
-    this.quizQuestionsService.getQuestions().subscribe(
+    this.quizQuestionsService.getQuestions(this.userInfo[3]).subscribe(
       (data) => {
         this.quizQuestions = data;
         this.saveInSession('quizQuestions', this.quizQuestions);

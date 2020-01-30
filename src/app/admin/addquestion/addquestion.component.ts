@@ -53,6 +53,8 @@ export class AddquestionComponent implements OnInit {
   }
 
   onAddQuestion(form: NgForm) {
+    let shortRole = form.value.role.replace(/\s/g, "");
+    
     const question: Question = {
       title: form.value.title,
       options: this.optionsList,
@@ -60,7 +62,8 @@ export class AddquestionComponent implements OnInit {
       /* min_exp: form.value.min_exp,
       max_exp: form.value.max_exp,
       question_type: form.value.question_type */
-      role: form.value.role
+      role: form.value.role,
+      shortrole: shortRole
     };
 
     if (form.invalid) {

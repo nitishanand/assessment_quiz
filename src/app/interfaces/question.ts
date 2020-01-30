@@ -6,4 +6,5 @@ export interface Question {
   max_exp?: number;
   question_type?: string; */
   role?: string;
+  shortrole?: string;
 }

@@ -4,14 +4,35 @@
       <input matInput type="text" name="role" ngModel #role="ngModel" placeholder="Designer" required>
     </mat-form-field>
 
-    <p>
+    <div *ngIf="rolesLoaded && availableRoles.length > 1; then rolesList else noRolesList">
+
+    </div>
+
+    <ng-template #rolesList>
+      <p>
+        List of available roles:
+      </p>
+      <ul>
+        <li *ngFor="let role of availableRoles">
+          {{ role.name }}
+        </li>
+      </ul>
+    </ng-template>
+
+    <ng-template #noRolesList>
+      <p>
+        No roles have been defined yet.
+      </p>
+    </ng-template>
+
+    <!-- <p>
       List of available roles:
     </p>
     <ul>
       <li *ngFor="let role of availableRoles">
         {{ role.name }}
       </li>
-    </ul>
+    </ul> -->
 
     <button mat-raised-button type="submit" color="primary">Submit Role</button>
   </form>

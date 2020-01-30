@@ -200,7 +200,8 @@ export class QuizComponent implements OnInit {
             email: this.userInfo[1],
             // experience: this.userInfo[2],
             role: this.userInfo[2],
-            score: this.userInfo[3]
+            shortrole: this.userInfo[3],
+            score: this.userInfo[4]
           };
 
           this.quizQuestionsService.addUserScore(user).subscribe((data) => {

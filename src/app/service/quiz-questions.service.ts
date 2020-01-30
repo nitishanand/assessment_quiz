@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import { Question } from '../interfaces/question';
 import { User } from '../interfaces/user';
@@ -19,8 +19,10 @@ export class QuizQuestionsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getQuestions() {
-    return this.httpClient.get<Question[]>(api_url + '/api/questions').pipe(catchError(this.handleError));
+  getQuestions(searchQuery) {
+    let params = new HttpParams().set('role', searchQuery);
+
+    return this.httpClient.get<Question[]>(api_url + '/api/questions', {params: params}).pipe(catchError(this.handleError));
   }
 
   getAnswers() {
