@@ -18,7 +18,7 @@ import { environment } from '../environments/environment';
 import { AddquestionComponent } from './admin/addquestion/addquestion.component';
 
 // Angular Material
-import { MatFormFieldModule, MatInputModule, MatRadioModule, MatCardModule, MatSelectModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatRadioModule, MatCardModule, MatSelectModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule } from '@angular/material';
 
 // Services
 import { QuizQuestionsService } from './service/quiz-questions.service';
@@ -28,6 +28,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { EventemitterService } from './service/eventemitter.service';
 import { BeginComponent } from './begin/begin.component';
 import { AddrolesComponent } from './admin/addroles/addroles.component';
+import { ViewusersComponent } from './admin/viewusers/viewusers.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AddrolesComponent } from './admin/addroles/addroles.component';
     RegisterComponent,
     NotFoundComponent,
     BeginComponent,
-    AddrolesComponent
+    AddrolesComponent,
+    ViewusersComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,10 @@ import { AddrolesComponent } from './admin/addroles/addroles.component';
     MatRadioModule,
     MatCardModule,
     MatSelectModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatTableModule,
     StorageServiceModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

@@ -7,6 +7,7 @@ import { RegisterComponent } from './register/register.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { BeginComponent } from './begin/begin.component';
 import { AddrolesComponent } from './admin/addroles/addroles.component';
+import { ViewusersComponent } from './admin/viewusers/viewusers.component';
 // import { MatFormFieldModule, MatInputModule, MatRadioModule } from '@angular/material'
 
 const routes: Routes = [
@@ -35,6 +36,10 @@ const routes: Routes = [
       {
         path: 'addrole',
         component: AddrolesComponent
+      },
+      {
+        path: 'viewusers',
+        component: ViewusersComponent
       }
     ]
   },

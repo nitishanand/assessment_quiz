@@ -11,6 +11,8 @@ import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 })
 export class BeginComponent implements OnInit {
   quizQuestions: any[];
+
+  // flag to trigger a service error if any and display a error message accordingly.
   serviceError = false;
   serviceErrorMessage;
 

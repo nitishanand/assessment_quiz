@@ -13,6 +13,10 @@ export class AddrolesComponent implements OnInit {
   rolesLoaded = false;
   availableRoles;
 
+  // flag to trigger a service error if any and display a error message accordingly.
+  serviceError = false;
+  serviceErrorMessage;
+
   constructor(
     private addRoleService: AddRoleService,
     private rolesService: RolesService
@@ -40,7 +44,7 @@ export class AddrolesComponent implements OnInit {
     this.addRoleService.addRole(role).subscribe(
       (data) => console.log(data),
       (err) => {
-
+        this.serviceErrorMessage = err;
       }
     );
 

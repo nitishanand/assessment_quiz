@@ -4,7 +4,7 @@
       <input matInput type="text" name="role" ngModel #role="ngModel" placeholder="Designer" required>
     </mat-form-field>
 
-    <div *ngIf="rolesLoaded && availableRoles.length > 1; then rolesList else noRolesList">
+    <div *ngIf="rolesLoaded && availableRoles.length >= 1; then rolesList else noRolesList">
 
     </div>
 

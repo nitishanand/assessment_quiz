@@ -1,8 +1,0 @@
-{
-  "development": {
-    "node_port": 3000
-  },
-  "production": {
-    "node_port": 8080
-  }
-}
