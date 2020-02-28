@@ -4,7 +4,14 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000'
+  apiUrl: 'http://localhost:3000',
+  auth: {
+    clientID: 'oTJr85xpJePYhAHHYZsxl0gkwsnAL5rH',
+    domain: 'https://dev-vzvl0i9b.auth0.com', // e.g., https://you.auth0.com/
+    audience: 'https://assessment-quiz.firebaseapp.com/', // e.g., http://localhost:3001
+    redirect: 'https://assessment-quiz.firebaseapp.com/admin',
+    scope: 'openid profile email'
+  }
 };
 
 /*

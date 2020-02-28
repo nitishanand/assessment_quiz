@@ -14,13 +14,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  authenticateUser(username) {
+  /* authenticateUser(username) {
     this.authService.login(username).subscribe((res) => {
       console.log('login form submitted');
-      // this.loginStatus = res;
     });
-
-    // console.log(this.loginStatus);
-  }
+  } */
 
 }

@@ -27,3 +27,11 @@
   <!-- <p>{{ userInfo[0] }}, you scored {{ assessmentScore }} out of {{ questionsList.length }} questions attempted.</p> -->
   <p>Kindly co-ordinate with HR for your result.</p>
 </ng-template>
+
+<div *ngIf="serviceError" class="col-sm-12 alert alert-danger mt-3">
+  {{ serviceErrorMessage }}
+</div>
+
+<ng-template #serviceErrorContainer>
+  {{ serviceErrorMessage }}
+</ng-template>

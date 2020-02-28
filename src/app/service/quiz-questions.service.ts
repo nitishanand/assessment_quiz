@@ -7,7 +7,6 @@ import { User } from '../interfaces/user';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-
 const api_url = environment.apiUrl;
 
 @Injectable({

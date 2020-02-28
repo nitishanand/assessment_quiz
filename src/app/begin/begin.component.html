@@ -1,7 +1,11 @@
+<!-- <div class="col-sm-12 alert alert-danger mt-3" [style.display]="internetConnectivity ? 'none' : 'block'">
+  Internet connection lost.
+</div> -->
+  
 <h1>Welcome, {{ userInfo[0] }}</h1>
 
 <ul>
-  <li>This assessment quiz will consist of 10 questions.</li>
+  <li>This assessment quiz will consist of {{ totalQuestions }} questions.</li>
   <li>All questions are mandatory.</li>
   <li>There won't be negative marking for wrong answers.</li>
   <li>You will be able to navigate between questions by making use of "Previous" and "Next" buttons respectively.</li>

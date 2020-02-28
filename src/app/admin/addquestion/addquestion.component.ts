@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { AddQuestionService } from 'src/app/service/add-question.service';
 import { Question } from 'src/app/interfaces/question';
 import { RolesService } from 'src/app/service/roles.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-addquestion',
@@ -43,9 +45,15 @@ export class AddquestionComponent implements OnInit {
 
   optionsList: string[] = [];
 
+  // store reference to the subscription
+  addQuestionSub: Subscription;
+  rolesSub: Subscription;
+  error: any;
+
   constructor(
     public addQuestionService: AddQuestionService,
-    private rolesService: RolesService
+    private rolesService: RolesService,
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -54,7 +62,7 @@ export class AddquestionComponent implements OnInit {
 
   onAddQuestion(form: NgForm) {
     let shortRole = form.value.role.replace(/\s/g, "");
-    
+
     const question: Question = {
       title: form.value.title,
       options: this.optionsList,
@@ -70,12 +78,12 @@ export class AddquestionComponent implements OnInit {
       return;
     }
 
-    this.addQuestionService.addQuestion(question).subscribe(
-      (data) => console.log(data),
-      (err) => {
-        
-      }
-    );
+    this.addQuestionService
+      .addQuestion(question)
+      .subscribe(
+        data => console.log(data),
+        err => this.error = err
+      );
 
     // console.log(form.value.title);
 
@@ -88,7 +96,7 @@ export class AddquestionComponent implements OnInit {
     // option.preventDefault();
 
     // console.log(option.value);
-    
+
     if (option.value) {
       this.optionsList.push(option.value);
       // console.log('Add button clicked!');
@@ -106,9 +114,17 @@ export class AddquestionComponent implements OnInit {
   }
 
   getRoles() {
-    this.rolesService.getRoles().subscribe((roles) => {
-      this.roles = roles;
-    });
+    this.rolesSub = this.rolesService
+      .getRoles()
+      .subscribe(
+        roles => this.roles = roles,
+        err => this.error = err
+      );
+  }
+
+  ngOnDestroy() {
+    this.addQuestionSub.unsubscribe();
+    this.rolesSub.unsubscribe();
   }
 
 }

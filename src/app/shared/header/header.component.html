@@ -15,14 +15,17 @@
             <li><a routerLink="/register">Attempt Quiz</a></li> -->
           </ul>
 
-          <!-- <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a>Log In</a>
+          <ul class="nav navbar-nav navbar-right">
+            <!-- <li *ngIf="!auth.isLoggedIn()">
+              <a routerLink="/login">Sign In</a>
             </li>
-            <li>
-              <a>Log Out</a>
+            <li *ngIf="auth.isLoggedIn()">
+              <a routerLink="/profile">{{ auth.getUserDetails()?.name }}</a>
             </li>
-          </ul> -->
+            <li *ngIf="auth.isLoggedIn()">
+              <a (click)="auth.logout()">Log Out</a>
+            </li> -->
+          </ul>
         </nav>
         
       </div>

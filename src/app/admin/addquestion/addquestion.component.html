@@ -1,64 +1,70 @@
-<mat-card>
-  <form class="example-form" (submit)="onAddQuestion(questionForm)" #questionForm="ngForm" novalidate>
-    <mat-form-field>
-      <input matInput type="text" name="title" ngModel #title="ngModel" placeholder="Question Title" required>
-    </mat-form-field>
+<ng-template [ngIf]="authService.isLoggedIn">
+  <mat-card>
+    <form class="example-form" (submit)="onAddQuestion(questionForm)" #questionForm="ngForm" novalidate>
+      <mat-form-field>
+        <input matInput type="text" name="title" ngModel #title="ngModel" placeholder="Question Title" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput type="text" name="option" ngModel #option="ngModel" placeholder="Option">
+      </mat-form-field>
+  
+      <button type="button" mat-fab color="accent" (click)="onAddOption(option)">+</button>
+  
+      <ul>
+        <li *ngFor="let option of optionsList; let i = index">
+          <span>
+            {{ option }}
+          </span>
+          <button mat-button color="accent" (click)="onRemoveOption(i)">Remove</button>
+        </li>
+      </ul>
+      
+      <mat-form-field>
+        <input matInput required type="text" name="answer" ngModel #answer="ngModel" placeholder="Correct Answer">
+      </mat-form-field>
+  
+      <!-- <mat-form-field>
+        <mat-label>Minimum Experience:</mat-label>
+        <mat-select required name="min_exp" ngModel #min_exp="ngModel">
+          <mat-option *ngFor="let year of experience" [value]="year.value">
+            {{ year.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Maximum Experience:</mat-label>
+        <mat-select required name="max_exp" ngModel #max_exp="ngModel">
+          <mat-option *ngFor="let year of experience" [value]="year.value">
+            {{ year.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Question Type:</mat-label>
+        <mat-select required name="question_type" ngModel #question_type="ngModel">
+          <mat-option *ngFor="let type of questionType" [value]="type.value">
+            {{ type.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+  
+      <mat-form-field>
+        <mat-label>Role:</mat-label>
+        <mat-select required name="role" ngModel #role="ngModel" [(ngModel)]="userSelectedRole">
+          <mat-option *ngFor="let role of roles" [value]="role.name">
+            {{ role.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <button mat-raised-button type="submit" color="primary">Submit Question</button>
+    </form>
+  </mat-card>
+</ng-template>
 
-    <mat-form-field>
-      <input matInput type="text" name="option" ngModel #option="ngModel" placeholder="Option">
-    </mat-form-field>
-
-    <button type="button" mat-fab color="accent" (click)="onAddOption(option)">+</button>
-
-    <ul>
-      <li *ngFor="let option of optionsList; let i = index">
-        <span>
-          {{ option }}
-        </span>
-        <button mat-button color="accent" (click)="onRemoveOption(i)">Remove</button>
-      </li>
-    </ul>
-    
-    <mat-form-field>
-      <input matInput required type="text" name="answer" ngModel #answer="ngModel" placeholder="Correct Answer">
-    </mat-form-field>
-
-    <!-- <mat-form-field>
-      <mat-label>Minimum Experience:</mat-label>
-      <mat-select required name="min_exp" ngModel #min_exp="ngModel">
-        <mat-option *ngFor="let year of experience" [value]="year.value">
-          {{ year.viewValue }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Maximum Experience:</mat-label>
-      <mat-select required name="max_exp" ngModel #max_exp="ngModel">
-        <mat-option *ngFor="let year of experience" [value]="year.value">
-          {{ year.viewValue }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Question Type:</mat-label>
-      <mat-select required name="question_type" ngModel #question_type="ngModel">
-        <mat-option *ngFor="let type of questionType" [value]="type.value">
-          {{ type.viewValue }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-    <mat-form-field>
-      <mat-label>Role:</mat-label>
-      <mat-select required name="role" ngModel #role="ngModel" [(ngModel)]="userSelectedRole">
-        <mat-option *ngFor="let role of roles" [value]="role.name">
-          {{ role.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button mat-raised-button type="submit" color="primary">Submit Question</button>
-  </form>
-</mat-card>
+<div class="col-sm-12 alert alert-danger" *ngIf="error">
+  <strong>Oops!</strong> An error occurred fetching data. Please try again.
+</div>

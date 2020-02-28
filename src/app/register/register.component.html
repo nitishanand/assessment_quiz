@@ -1,3 +1,7 @@
+<div class="col-sm-12 alert alert-danger mt-3" [style.display]="internetConnectivity ? 'none' : 'block'">
+  Internet connection lost.
+</div>
+
 <p>
   Kindly provide your Name, Email and Role applied for:
 </p>
@@ -13,6 +17,7 @@
     type="text"
     name="name"
     id="name"
+    placeholder="Enter your name"
     class="form-control" (change)="log(name)">
     <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
       <div *ngIf="name.errors.required">
@@ -28,12 +33,14 @@
     <label for="email">Email Address</label>
     <input
     required
-    ngModel [email]="true"
+    ngModel
+    [email]="true"
     #email="ngModel"
     type="email"
     name="email"
     id="email"
-    class="form-control">
+    class="form-control"
+    placeholder="Enter email">
   </div>
 
   <div class="form-group">
@@ -65,4 +72,13 @@
   </div> -->
 
   <button type="submit" class="btn btn-primary" [disabled]="f.invalid" [ngClass]="f.invalid ? 'disabled' : ''">Register</button>
+
+  <div class="col-sm-12 alert alert-danger mt-3" *ngIf="serviceError">
+    {{ serviceErrorMessage }}
+  </div>
+
+  <!-- <ng-template #serviceErrorContainer>
+    {{ serviceErrorMessage }}
+  </ng-template> -->
+
 </form>

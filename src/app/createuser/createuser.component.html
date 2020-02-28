@@ -1,0 +1,49 @@
+<form #f="ngForm" (submit)="createUser()">
+  <div class="form-group">
+    <label for="name">Full name</label>
+    <input
+    required
+    minlength="3"
+    ngModel
+    #name="ngModel"
+    type="text"
+    name="name"
+    placeholder="Enter your name"
+    [(ngModel)]="credentials.name"
+    class="form-control">
+    <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+      <div *ngIf="name.errors.required">
+        Name is required.
+      </div>
+      <div *ngIf="name.errors.minlength">
+        Name should be minimum {{ name.errors.minlength.requiredLength }} characters.
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input
+    required
+    type="email"
+    ngModel
+    #email="ngModel"
+    class="form-control"
+    name="email"
+    placeholder="Enter email"
+    [(ngModel)]="credentials.email">
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+    required
+    type="password"
+    class="form-control"
+    name="password"
+    placeholder="Password"
+    [(ngModel)]="credentials.password">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Register!</button>
+</form>
