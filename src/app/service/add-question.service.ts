@@ -17,22 +17,7 @@ export class AddQuestionService {
   constructor(private httpClient: HttpClient) { }
 
   addQuestion(question: Question) {
-    /* const question: Question = {
-      title: title,
-      options: options,
-      answer: answer,
-      min_exp: min_exp,
-      max_exp: max_exp,
-      question_type: question_type
-    }; */
-
-    /* this.httpClient.post<Question[]>(api_url + '/api/addquestion', question).subscribe((responseData) => {
-      console.log(responseData);
-      this.question.push(question);
-      this.questionUpdated.next([...this.question]);
-    }); */
-
-    return this.httpClient.post(api_url + '/api/addquestion', question);
+    return this.httpClient.post(api_url + '/api/v1/questions', question);
   }
 
 }

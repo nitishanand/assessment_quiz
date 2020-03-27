@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/service/auth.service';
 export class ViewusersComponent implements OnInit {
   usersData: User[] = [];
   dataSource;
-  displayedColumns: string[] = ['name', 'email', 'role', 'score'];
+  displayedColumns: string[] = ['name', 'email', 'role', 'score', 'created'];
 
   // store reference to the subscription
   usersSub: Subscription;

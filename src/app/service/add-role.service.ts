@@ -13,6 +13,6 @@ export class AddRoleService {
   constructor(private httpClient: HttpClient) { }
 
   addRole(role: Role) {
-    return this.httpClient.post(api_url + '/api/addrole', role);
+    return this.httpClient.post(api_url + '/api/v1/roles', role);
   }
 }

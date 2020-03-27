@@ -1,12 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { RolesService } from '../service/roles.service';
 import { QuizQuestionsService } from '../service/quiz-questions.service';
 import { ConnectionService } from 'ng-connection-service';
-import { ToastrService } from 'ngx-toastr';
-import { NotificationService } from '../service/notification.service';
 
 @Component({
   selector: 'app-register',
@@ -24,15 +22,9 @@ export class RegisterComponent implements OnInit {
 
   quizQuestions: any[];
 
-  // userRoles: any[] = [];
-
   // flag to trigger a service error if any and display a error message accordingly.
   serviceError = false;
   serviceErrorMessage;
-
-  /* userExperience;
-
-  experience = ['<2', '2+', '5+', '10+']; */
 
   // checking active internet connection
   internetConnectivity = true; //initializing as online by default
@@ -41,12 +33,10 @@ export class RegisterComponent implements OnInit {
   answers;
 
   constructor(
-    // private eventEmitterService: EventemitterService,
     private router: Router,
     private rolesService: RolesService,
     private quizQuestionsService: QuizQuestionsService,
     private connectionService: ConnectionService,
-    private notifyService: NotificationService,
     @Inject(SESSION_STORAGE) private storage: WebStorageService
   ) { }
 
@@ -65,7 +55,7 @@ export class RegisterComponent implements OnInit {
     });
 
     if (!this.roles) {
-      this.rolesService.getRoles().subscribe(
+      /* this.rolesService.getRoles().subscribe(
         (roles) => {
           this.roles = roles;
           this.saveInSession('userRoles', this.roles);
@@ -74,7 +64,17 @@ export class RegisterComponent implements OnInit {
           this.serviceError = true;
           this.serviceErrorMessage = 'There is a problem fetching roles from the database. Kindly try again later.';
         }
-      );
+      ); */
+      this.rolesService.getRoles().subscribe({
+        next: (roles) => {
+          this.roles = roles;
+          this.saveInSession('userRoles', this.roles);
+        },
+        error: (err) => {
+          this.serviceError = true;
+          this.serviceErrorMessage = 'There is a problem fetching roles from the database. Kindly try again later.';
+        }
+      });
     }
   }
 
@@ -88,9 +88,16 @@ export class RegisterComponent implements OnInit {
     if (this.userDetails) {
       this.userDetails.push(form.controls.name.value);
       this.userDetails.push(form.controls.email.value);
-      // this.userDetails.push(form.controls.experience.value);
       this.userDetails.push(this.userSelectedRole);
       this.userDetails.push(form.controls.role.value);
+
+      // a better way of implementation - try to replace above implementation with this one.
+      /* this.userDetails.push(
+        {'name': form.controls.name.value},
+        {'email': form.controls.email.value},
+        {'role': this.userSelectedRole},
+        {'shortrole': form.controls.role.value}
+      ); */
     }
 
     // remove user details stored within session storage
@@ -104,7 +111,7 @@ export class RegisterComponent implements OnInit {
     }
 
     // fetch new set of questions from the database
-    this.quizQuestionsService.getQuestions(this.userDetails[3]).subscribe(
+    /* this.quizQuestionsService.getQuestions(this.userDetails[3]).subscribe(
       (data) => {
         this.quizQuestions = data;
         this.saveInSession('userDetails', this.userDetails);
@@ -115,14 +122,19 @@ export class RegisterComponent implements OnInit {
         this.serviceError = true;
         this.serviceErrorMessage = 'There is a problem fetching questions from the database. Kindly try again later.';
       }
-    );
-    
-
-    // console.log(this.serviceErrorMessage);
-    // this.saveInSession('userDetails', this.userDetails);
-    // this.router.navigate(['/begin']);
-
-    // this.showToaster();
+    ); */
+    this.quizQuestionsService.getQuestions(this.userDetails[3], '2').subscribe({
+      next: (data) => {
+        this.quizQuestions = data;
+        this.saveInSession('userDetails', this.userDetails);
+        this.saveInSession('quizQuestions', this.quizQuestions);
+        this.router.navigate(['/begin']);
+      },
+      error: (err) => {
+        this.serviceError = true;
+        this.serviceErrorMessage = 'There is a problem fetching questions from the database. Kindly try again later.';
+      }
+    });
   }
 
   log(form) {
@@ -130,18 +142,15 @@ export class RegisterComponent implements OnInit {
   }
 
   saveInSession(key, val) {
-    // console.log('received=key' + key + ', value: ' + val);
     this.storage.set(key, val);
     this.userDetails[key] = this.storage.get(key);
   }
 
-  getFromSession(whatToSearch: string) {
+  getFromSession(key: string) {
     if (sessionStorage) {
-      if (sessionStorage.getItem(whatToSearch)) {
-        return JSON.parse(sessionStorage.getItem(whatToSearch));
-      } /* else {
-        console.log('does not exist');
-      } */
+      if (sessionStorage.getItem(key)) {
+        return JSON.parse(sessionStorage.getItem(key));
+      }
     }
   }
 

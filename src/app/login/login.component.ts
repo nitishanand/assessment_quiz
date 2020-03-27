@@ -9,6 +9,9 @@ import { TokenPayload } from '../interfaces/tokenpayload';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  serviceError = false;
+  serviceErrorMessage: string;
+  
   credentials: TokenPayload = {
     email: '',
     password: ''
@@ -20,12 +23,15 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.credentials);
-    this.auth.login(this.credentials).subscribe(() => {
-      this.router.navigateByUrl('/profile');
-    }, (err) => {
-      console.error(err);
-    }); 
+    this.auth.login(this.credentials).subscribe(
+      () => {
+        this.router.navigateByUrl('/profile');
+      },
+      (err) => {
+        this.serviceError = true;
+        this.serviceErrorMessage = 'There is a problem validating your credentials with the database. Kindly try again later.';
+      }
+    )
   }
 
   

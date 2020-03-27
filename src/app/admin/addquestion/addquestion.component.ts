@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AddQuestionService } from 'src/app/service/add-question.service';
 import { Question } from 'src/app/interfaces/question';
 import { RolesService } from 'src/app/service/roles.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
+import { QuizQuestionsService } from 'src/app/service/quiz-questions.service';
 
 @Component({
   selector: 'app-addquestion',
@@ -12,35 +12,6 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./addquestion.component.css']
 })
 export class AddquestionComponent implements OnInit {
-  /* questionType = [
-    {value: 'single', viewValue: 'Single Selection'},
-    {value: 'multiple', viewValue: 'Multipe Selection'}
-  ];
-
-  experience = [
-    {value: '0', viewValue: '0'},
-    {value: '1', viewValue: '1'},
-    {value: '2', viewValue: '2'},
-    {value: '3', viewValue: '3'},
-    {value: '4', viewValue: '4'},
-    {value: '5', viewValue: '5'},
-    {value: '6', viewValue: '6'},
-    {value: '7', viewValue: '7'},
-    {value: '8', viewValue: '8'},
-    {value: '9', viewValue: '9'},
-    {value: '10', viewValue: '10'},
-    {value: '11', viewValue: '11'},
-    {value: '12', viewValue: '12'},
-    {value: '13', viewValue: '13'},
-    {value: '14', viewValue: '14'},
-    {value: '15', viewValue: '15'},
-    {value: '16', viewValue: '16'},
-    {value: '17', viewValue: '17'},
-    {value: '18', viewValue: '18'},
-    {value: '19', viewValue: '19'},
-    {value: '20', viewValue: '20'}
-  ]; */
-
   roles: any[];
 
   optionsList: string[] = [];
@@ -51,7 +22,7 @@ export class AddquestionComponent implements OnInit {
   error: any;
 
   constructor(
-    public addQuestionService: AddQuestionService,
+    public quizQuestionsService: QuizQuestionsService,
     private rolesService: RolesService,
     public authService: AuthService
   ) { }
@@ -78,12 +49,17 @@ export class AddquestionComponent implements OnInit {
       return;
     }
 
-    this.addQuestionService
-      .addQuestion(question)
-      .subscribe(
+    /* this.quizQuestionsService
+      .createQuestion(question)
+      .subscribe({}
         data => console.log(data),
         err => this.error = err
-      );
+      ); */
+
+    this.quizQuestionsService.createQuestion(question).subscribe({
+      next: data => console.log(data),
+      error: err => this.error = err
+    });
 
     // console.log(form.value.title);
 
@@ -114,12 +90,17 @@ export class AddquestionComponent implements OnInit {
   }
 
   getRoles() {
-    this.rolesSub = this.rolesService
+    /* this.rolesSub = this.rolesService
       .getRoles()
       .subscribe(
         roles => this.roles = roles,
         err => this.error = err
-      );
+      ); */
+
+    this.rolesSub = this.rolesService.getRoles().subscribe({
+      next: roles => this.roles = roles,
+      error: err => this.error = err
+    });
   }
 
   ngOnDestroy() {

@@ -81,9 +81,9 @@ export class AuthService {
     let base;
   
     if (method === 'post') {
-      base = this.http.post((api_url + `/api/${type}`), user);
+      base = this.http.post((api_url + `/api/v1/${type}`), user);
     } else {
-      base = this.http.get((api_url + `/api/${type}`), { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      base = this.http.get((api_url + `/api/v1/${type}`), { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }
   
     const request = base.pipe(

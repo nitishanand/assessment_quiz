@@ -18,18 +18,35 @@ export class QuizQuestionsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getQuestions(searchQuery) {
-    let params = new HttpParams().set('role', searchQuery);
+  getQuestions(searchQuery: string, limit?: string) {
+    if (searchQuery) {
+      let params = new HttpParams().set('role', searchQuery).append('limit', limit);
 
-    return this.httpClient.get<Question[]>(api_url + '/api/questions', {params: params}).pipe(catchError(this.handleError));
+      return this.httpClient.get<Question[]>(api_url + '/api/v1/questions', {params: params}).pipe(catchError(this.handleError));
+    } else {
+      return this.httpClient.get<Question[]>(api_url + '/api/v1/questions').pipe(catchError(this.handleError));
+    }
   }
 
-  getAnswers() {
-    return this.httpClient.get<Question[]>(api_url + '/api/answers').pipe(catchError(this.handleError));
+  getQuestion() {}
+
+  createQuestion(question: Question) {
+    return this.httpClient.post(api_url + '/api/v1/questions', question);
+  }
+
+  getAnswers(searchQuery: string) {
+    // return this.httpClient.get<Question[]>(api_url + '/api/v1/answers').pipe(catchError(this.handleError));
+    if (searchQuery) {
+      let params = new HttpParams().set('role', searchQuery);
+
+      return this.httpClient.get<Question[]>(api_url + '/api/v1/answers', {params: params}).pipe(catchError(this.handleError));
+    } else {
+      return this.httpClient.get<Question[]>(api_url + '/api/v1/answers').pipe(catchError(this.handleError));
+    }
   }
 
   addUserScore(user: User) {
-    return this.httpClient.post(api_url + '/api/adduserscore', user);
+    return this.httpClient.post(api_url + '/api/v1/users', user);
   }
 
   // handling errors
@@ -38,20 +55,13 @@ export class QuizQuestionsService {
     // console.log(errorResponse.error);
 
     if (errorResponse instanceof ErrorEvent) {
-      // console.error('Client side error: ' + errorResponse.error.message);
       errorMessage = `Error ${ errorResponse.message }`;
     } else {
-      // console.log('Server side error: ' + errorResponse.message);
-      errorMessage = `Error: ${ errorResponse.status }, Message: ${ errorResponse.message}`
+      errorMessage = `Error: ${ errorResponse.status }, Message: ${ errorResponse.message }`
+
       this.serviceErrorMessage = errorMessage;
     }
 
-    /* for (const property in errorResponse) {
-      console.log(property);
-    } */
-
     return throwError('There is a problem with the service. We are notified and working on it. Please try again later.');
-
-    return throwError(errorMessage);
   }
 }

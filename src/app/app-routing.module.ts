@@ -11,6 +11,7 @@ import { ViewusersComponent } from './admin/viewusers/viewusers.component';
 import { CreateuserComponent } from './createuser/createuser.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuardService } from './guards/auth-guard.service';
+import { ManageQuestionsComponent } from './admin/manage-questions/manage-questions.component';
 // import { MatFormFieldModule, MatInputModule, MatRadioModule } from '@angular/material'
 
 const routes: Routes = [
@@ -54,6 +55,11 @@ const routes: Routes = [
       {
         path: 'viewusers',
         component: ViewusersComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path: 'managequestions',
+        component: ManageQuestionsComponent,
         canActivate: [AuthGuardService]
       }
     ]

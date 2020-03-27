@@ -1,9 +1,11 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, Inject } from '@angular/core';
 import { Question } from '../interfaces/question';
 import { QuizQuestionsService } from '../service/quiz-questions.service';
-import { EventEmitter } from '@angular/core';
 import { User } from '../interfaces/user';
 import { ConnectionService } from 'ng-connection-service';
+import { UsersService } from '../service/users.service';
+import { Router } from '@angular/router';
+import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 
 @Component({
   selector: 'app-quiz',
@@ -13,11 +15,12 @@ import { ConnectionService } from 'ng-connection-service';
 export class QuizComponent implements OnInit {
   // @Output() userScore = new EventEmitter<number>();
 
-  userInfo: any[] = [];
+  userDetails: any[] = [];
 
   // storage for all the questions once quiz is intialized
   questionsList: Question[] = [];
   answersList = [];
+  correctAnswers = [];
 
   // store the active question number
   activeQuestion: number = 0;
@@ -42,49 +45,96 @@ export class QuizComponent implements OnInit {
   // checking active internet connection
   internetConnectivity = true; //initializing as online by default
   isConnected = true;
+  connectionErrorMessage: string;
+
+  error: any;
 
   constructor(
     private quizQuestionsService: QuizQuestionsService,
+    private usersService: UsersService,
     private connectionService: ConnectionService,
-  ) { }
+    private router: Router,
+    @Inject(SESSION_STORAGE) private storage: WebStorageService
+  ) {
+    // check for active internet connection
+    this.connectionService.monitor().subscribe({
+      next: (isConnected) => {
+        if (isConnected) {
+          this.internetConnectivity = true;
+        } else {
+          this.internetConnectivity = false;
+        }
+
+        const user: User = {
+          name: this.userDetails[0],
+          email: this.userDetails[1],
+          role: this.userDetails[2],
+          shortrole: this.userDetails[3],
+          score: this.userDetails[4]
+        };
+
+        if (this.internetConnectivity && this.assessmentCompleted) {
+          this.usersService.addUserScore(user).subscribe(
+            data => console.log(data),
+            err => this.error = err,
+            () => {
+              // after 5 seconds, the user will be redirected to register page and user information from the session will be cleared immediately
+              setTimeout(() => {
+                this.clearSession();
+                this.router.navigate(['/']);
+              }, 5000);
+            }
+          );
+        }
+      },
+      error: (err) => {
+        this.connectionErrorMessage = 'The internet connection seems to be offline. Try after sometime.'
+      }
+    });
+  }
 
   // Get list of questions once component is initialized
   ngOnInit() {
-    /* this.quizQuestionsService.getQuestions().subscribe((res) => {
-      this.questionsList = res;
-
-      // for (let i = 0; i < this.questionsList.length; i++) {
-      //   this.answersList.push(this.questionsList[i].answer);
-      // }
-    }); */
-
-    /* this.quizQuestionsService.getAnswers().subscribe((res) => {
-      // this.answersList = res;
-
-      for (let i = 0; i < res.length; i++) {
-        this.answersList.push(res[i].answer);
-      }
-    });
-
-    // console.log(this.answersList); */
-
-    // check for active internet connection
-    this.connectionService.monitor().subscribe(isConnected => {
-      this.isConnected = isConnected;
-
-      if (this.isConnected) {
-        this.internetConnectivity = true;
-      } else {
-        this.internetConnectivity = false;
-      }
-    });
-
     this.questionsList = this.getFromSession('quizQuestions');
-    this.userInfo = this.getFromSession('userDetails');
+    this.userDetails = this.getFromSession('userDetails');
 
-    
+    if (this.internetConnectivity) {
+      // get all answers via service
+      this.quizQuestionsService.getAnswers(this.userDetails[3]).subscribe(
+        (res) => {
+          for (let i = 0; i < res.length; i++) {
+            // store the received answers along with id for further comparison and sorting
+            this.answersList.push({_id: res[i]['_id'], answer: res[i]['answer']});
+          }
 
-    // console.log(this.userInfo[0]);
+          // traverse all the questions and answers for creating a new list of matching answers for fetched questions
+          this.questionsList.forEach((question) => {
+            for (let i = 0; i < this.answersList.length; i++) {
+              if (question['_id'] === this.answersList[i]['_id']) {
+                // console.log('matches' + ', ' + question['_id'] + ', ' + this.answersList[i]['_id'] + ', ' + this.answersList[i]['answer']);
+                // this.answersList = [];
+                // this.answersList.push({_id: this.answersList[i]['_id'], answer: this.answersList[i]['answer']});
+                // this.answersList = [];
+                // console.log(typeof this.answersList);
+                this.correctAnswers.push(this.answersList[i]['answer']);
+              }
+            }
+          });
+
+          // console.log(this.correctAnswers);
+        },
+        (err) => {
+          this.serviceError = true;
+          this.serviceErrorMessage = err;
+          console.error(err);
+        }
+      )
+    }
+  }
+
+  saveInSession(key, val) {
+    this.storage.set(key, val);
+    this.userDetails[key] = this.storage.get(key);
   }
 
   onNextQuestion() {
@@ -105,8 +155,6 @@ export class QuizComponent implements OnInit {
 
     // on each button click check if the active question is the last question to disable next button
     this.isLastQuestion();
-
-    // console.log(this.userSelectionAnswerArray);
   }
 
   onPrevQuestion() {
@@ -181,110 +229,75 @@ export class QuizComponent implements OnInit {
   }
 
   onSubmitQuiz() {
-    // let assessmentScoreArray: any[] = [];
-
-    // check for active internet connection
-    this.connectionService.monitor().subscribe(isConnected => {
-      this.isConnected = isConnected;
-
-      if (this.isConnected) {
-        this.internetConnectivity = true;
-      } else {
-        this.internetConnectivity = false;
+    for (let i = 0; i < this.questionsList.length; i++) {
+      if (this.userSelectionAnswerArray[i] === this.correctAnswers[i]) {
+        this.assessmentScore += 1;
       }
+    }
 
-      // console.log(this.internetConnectivity);
-    });
+    this.assessmentCompleted = true;
 
-    if (this.internetConnectivity) {
-      this.quizQuestionsService.getAnswers().subscribe(
-        (res) => {
-          // this.answersList = res;
-  
-          for (let i = 0; i < res.length; i++) {
-            this.answersList.push(res[i].answer);
+    if (this.assessmentCompleted) {
+      this.userDetails.push(this.assessmentScore);
+
+      console.log(this.userDetails);
+
+      const user: User = {
+        name: this.userDetails[0],
+        email: this.userDetails[1],
+        role: this.userDetails[2],
+        shortrole: this.userDetails[3],
+        score: this.userDetails[4]
+      };
+
+      console.log(`Internet connection: ${this.internetConnectivity}`);
+
+      if (this.internetConnectivity) {
+        this.usersService.addUserScore(user).subscribe(
+          data => console.log(data),
+          err => this.error = err,
+          () => {
+            // after 5 seconds, the user will be redirected to register page and user information from the session will be cleared immediately
+            setTimeout(() => {
+              this.clearSession();
+              this.router.navigate(['/']);
+            }, 5000);
           }
-        },
-        (err) => {
-          this.serviceError = true;
-          this.serviceErrorMessage = err;
-          console.error(err);
-        },
-        () => {
-          for (let i = 0; i < this.questionsList.length; i++) {
-            if (this.userSelectionAnswerArray[i] === this.answersList[i]) {
-              this.assessmentScore += 1;
-            }
-          }
-  
-          this.assessmentCompleted = true;
-  
-          /* const user: User = {
-            name: ,
-            email: ,
-            experience: ,
-            score:
-          };
-  
-          this.quizQuestionsService.addUserScore(this.userInfo); */
-  
-          // console.log(this.assessmentCompleted);
-  
-          if (this.assessmentCompleted) {
-            // console.log('assessment completed');
-            this.userInfo.push(this.assessmentScore);
-  
-            const user: User = {
-              name: this.userInfo[0],
-              email: this.userInfo[1],
-              // experience: this.userInfo[2],
-              role: this.userInfo[2],
-              shortrole: this.userInfo[3],
-              score: this.userInfo[4]
-            };
-  
-            this.quizQuestionsService.addUserScore(user).subscribe((data) => {
-              console.log(data);
-            });
-  
-            /* this.addQuestionService.addQuestion(question).subscribe(
-              (data) => console.log(data),
-              (err) => {
-                
-              }
-            ); */
-          }
-  
-  
-          // console.log(this.userInfo);
-        }
-      );
+        );
+      } else {
+        // localStorage.setItem('score', String(this.assessmentScore));
+        sessionStorage.removeItem('userDetails');
+        // sessionStorage.setItem('userDetails', this.userDetails);
+        this.saveInSession('userDetails', this.userDetails);
+      }
     }
   }
 
-  /* getFromSession(key) {
-    console.log('recived= key:' + key);
-    this.questionsList[key] = this.storage.get(key);
-    console.log(this.questionsList);
-  } */
-
-  /* getFromSession() {
+  getFromSession(key: string) {
     if (sessionStorage) {
-      if (sessionStorage.getItem('quizQuestions')) {
-        return JSON.parse(sessionStorage.getItem('quizQuestions'));
+      if (sessionStorage.getItem(key)) {
+        return JSON.parse(sessionStorage.getItem(key));
       } else {
         console.log('does not exist');
       }
     }
-  } */
+  }
 
-  getFromSession(whatToSearch: string) {
+  clearSession() {
     if (sessionStorage) {
-      if (sessionStorage.getItem(whatToSearch)) {
-        return JSON.parse(sessionStorage.getItem(whatToSearch));
-      } else {
-        console.log('does not exist');
+      if (sessionStorage.getItem('userDetails')) {
+        sessionStorage.removeItem('userDetails');
       }
+
+      if (sessionStorage.getItem('quizQuestions')) {
+        sessionStorage.removeItem('quizQuestions');
+      }
+    }
+  }
+
+  checkConnection() {
+    if (this.internetConnectivity) {
+
     }
   }
 

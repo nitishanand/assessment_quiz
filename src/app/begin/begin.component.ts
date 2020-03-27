@@ -15,8 +15,8 @@ export class BeginComponent implements OnInit {
   totalQuestions: number;
 
   // flag to trigger a service error if any and display a error message accordingly.
-  serviceError = false;
-  serviceErrorMessage;
+  // serviceError = false;
+  // serviceErrorMessage;
 
   userInfo: any[] = [];
 
@@ -34,53 +34,16 @@ export class BeginComponent implements OnInit {
   ngOnInit() {
     this.userInfo = this.getFromSession('userDetails');
     this.totalQuestions = this.getFromSession('quizQuestions').length;
-    // console.log(this.userInfo);
-    // console.log(this.totalQuestions);
-
-    // check for active internet connection
-    /* this.connectionService.monitor().subscribe(isConnected => {
-      this.isConnected = isConnected;
-
-      if (this.isConnected) {
-        this.internetConnectivity = true;
-      } else {
-        this.internetConnectivity = false;
-      }
-    }); */
   }
 
   beginQuiz() {
-    /* this.quizQuestionsService.getQuestions().subscribe((data) => {
-      this.quizQuestions = data;
-      this.saveInSession('quizQuestions', this.quizQuestions);
-      this.router.navigate(['/quiz']);
-    }); */
-
-    /* this.quizQuestionsService.getQuestions(this.userInfo[3]).subscribe(
-      (data) => {
-        this.quizQuestions = data;
-        this.saveInSession('quizQuestions', this.quizQuestions);
-        this.router.navigate(['/quiz']);
-      },
-      (err) => {
-        this.serviceError = true;
-        this.serviceErrorMessage = err;
-      }
-    ); */
-
     this.router.navigate(['/quiz']);
   }
 
-  saveInSession(key, val) {
-    console.log('received=key' + key + ', value: ' + val);
-    this.storage.set(key, val);
-    this.quizQuestions[key] = this.storage.get(key);
-  }
-
-  getFromSession(whatToSearch: string) {
+  getFromSession(key: string) {
     if (sessionStorage) {
-      if (sessionStorage.getItem(whatToSearch)) {
-        return JSON.parse(sessionStorage.getItem(whatToSearch));
+      if (sessionStorage.getItem(key)) {
+        return JSON.parse(sessionStorage.getItem(key));
       } else {
         console.log('does not exist');
       }

@@ -1,3 +1,5 @@
+<app-loader></app-loader>
+
 <div class="col-sm-12 alert alert-danger mt-3" [style.display]="internetConnectivity ? 'none' : 'block'">
   Internet connection lost.
 </div>
@@ -57,28 +59,9 @@
     </select>
   </div>
 
-  <!-- <div class="form-group">
-    <label for="experience">Maximum Experience</label>
-    <select
-    required
-    [(ngModel)]="userExperience"
-    name="experience"
-    id="experience"
-    class="form-control">
-      <option *ngFor="let option of experience" [value]="option">
-        {{ option }}
-      </option>
-    </select>
-  </div> -->
-
   <button type="submit" class="btn btn-primary" [disabled]="f.invalid" [ngClass]="f.invalid ? 'disabled' : ''">Register</button>
 
   <div class="col-sm-12 alert alert-danger mt-3" *ngIf="serviceError">
     {{ serviceErrorMessage }}
   </div>
-
-  <!-- <ng-template #serviceErrorContainer>
-    {{ serviceErrorMessage }}
-  </ng-template> -->
-
 </form>
