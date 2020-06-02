@@ -49,6 +49,10 @@ export class QuizQuestionsService {
     return this.httpClient.post(api_url + '/api/v1/users', user);
   }
 
+  updateQuestion(questionId: string, questionData: Question) {
+    return this.httpClient.put<Question>(api_url + '/api/v1/questions' + '/' + questionId, questionData);
+  }
+
   // handling errors
   private handleError(errorResponse: HttpErrorResponse) {
     let errorMessage = '';

@@ -29,24 +29,6 @@ export class InterceptorService implements HttpInterceptor {
           }
         }
       }),
-      /* catchError((err) => {
-        console.log(err);
-
-        if (err instanceof HttpErrorResponse) {
-          try {
-            this.toastrService.error(err.message), 'Error', {
-              positionClass: 'toast-bottom-center'
-            }
-          } catch (e) {
-            this.toastrService.error('An error occurred', 'Error', {
-              positionClass: 'toast-bottom-center'
-            });
-
-          }
-        }
-
-        return of(err);
-      }), */
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
 
@@ -56,7 +38,7 @@ export class InterceptorService implements HttpInterceptor {
           errorMessage = `Error: ${error.status} \nMessage: ${error.message}`;
         }
 
-        console.log(errorMessage);
+        // console.log(errorMessage);
         return throwError(errorMessage);
       }),
       finalize(() => {

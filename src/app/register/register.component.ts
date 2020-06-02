@@ -68,6 +68,7 @@ export class RegisterComponent implements OnInit {
       this.rolesService.getRoles().subscribe({
         next: (roles) => {
           this.roles = roles;
+          console.log(this.roles);
           this.saveInSession('userRoles', this.roles);
         },
         error: (err) => {

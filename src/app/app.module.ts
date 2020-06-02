@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { MaterialModule } from './material.module';
 
@@ -36,7 +36,8 @@ import { ManageQuestionsComponent } from './admin/manage-questions/manage-questi
 import { InterceptorService } from './service/interceptor.service';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { LoaderService } from './service/loader.service';
-import { ModalComponent } from './modal/modal.component';
+import { ModalComponent } from './shared/modal/modal.component';
+// import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ModalComponent } from './modal/modal.component';
     MaterialModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     StorageServiceModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
@@ -74,7 +76,14 @@ import { ModalComponent } from './modal/modal.component';
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
-    }
+    }/* ,
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        width: '500px',
+        height: '500px'
+      } as MatDialogConfig
+    } */
   ],
   bootstrap: [AppComponent],
   entryComponents: [ModalComponent]

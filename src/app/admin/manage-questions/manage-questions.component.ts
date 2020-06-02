@@ -5,12 +5,11 @@ import { Role } from 'src/app/interfaces/role';
 import { Subscription } from 'rxjs';
 import { RolesService } from 'src/app/service/roles.service';
 
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { ModalComponent } from 'src/app/modal/modal.component';
-
-interface DialogData {
-  email: string;
-}
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { Sort } from '@angular/material/sort';
+import { PageEvent } from '@angular/material/paginator';
+import { ModalComponent } from 'src/app/shared/modal/modal.component';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-questions',
@@ -21,6 +20,9 @@ export class ManageQuestionsComponent implements OnInit {
   rolesSub: Subscription;
 
   quizQuestions: Question[];
+  sortedQuizQuestions: Question[];
+
+  isDataUpdated: boolean = false;
 
   displayedColumns: string[] = ['title', 'options', 'answer', 'id'];
 
@@ -32,20 +34,30 @@ export class ManageQuestionsComponent implements OnInit {
 
   userSelectedRole: string;
 
+  // hide the table headers initially before any roles are fetched from the database
   showTableHeader = false;
 
-  email: string;
+  // @ViewChild(MatSort) sort: MatSort;
+
+  // email: string;
+
+  length = 100;
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
+  // MatPaginator Output
+  pageEvent: PageEvent;
+
+  manageQuestionsDialogRef: MatDialogRef<ModalComponent>;
 
   constructor(
     public quizQuestionsService: QuizQuestionsService,
     public rolesService: RolesService,
-    public dialog: MatDialog
+    public matDialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.getRoles();
-
-    
   }
 
   getRoles() {
@@ -56,23 +68,15 @@ export class ManageQuestionsComponent implements OnInit {
   }
 
   onRoleSelectionChange() {
-    // console.log(this.userSelectedRole);
-    /* this.quizQuestionsService.getQuestions(this.userSelectedRole).subscribe(
-      (data) => {
-        this.quizQuestions = data;
-        console.log(this.quizQuestions);
-      },
-      (err) => {
-        this.serviceError = true;
-        this.serviceErrorMessage = 'There is a problem fetching questions from the database. Kindly try again later.';
-      }
-    ); */
+    this.fetchRoleData(this.userSelectedRole);
+  }
 
-    this.quizQuestionsService.getQuestions(this.userSelectedRole).subscribe({
+  fetchRoleData(role) {
+    this.quizQuestionsService.getQuestions(role).subscribe({
       next: (data) => {
         this.quizQuestions = data;
 
-        console.log(this.quizQuestions);
+        this.sortedQuizQuestions = this.quizQuestions.slice();
       },
       error: (err) => {
         this.serviceError = true;
@@ -82,15 +86,67 @@ export class ManageQuestionsComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '300px',
-      data: {}
-    });
+  sortData(sort: Sort) {
+    const data = this.quizQuestions.slice();
+    
+    if (!sort.active || sort.direction === '') {
+      this.sortedQuizQuestions = data;
+      return;
+    }
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.email = result;
+    this.sortedQuizQuestions = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+
+      switch (sort.active) {
+        case 'title': return compare(a.title, b.title, isAsc);
+        // case 'calories': return compare(a.calories, b.calories, isAsc);
+        // case 'fat': return compare(a.fat, b.fat, isAsc);
+        // case 'carbs': return compare(a.carbs, b.carbs, isAsc);
+        // case 'protein': return compare(a.protein, b.protein, isAsc);
+        default: return 0;
+      }
     });
   }
+  
+  pageSizeChange(pageEvent) {
+    console.log(pageEvent);
+  }
 
+  openDialog(data): void {
+    // configuration for the manageQuestionDialog
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.id = 'modal-component';
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.height = '90%';
+    dialogConfig.data = {
+      // pass title and relevant question data to the modal
+      modalTitle: 'Edit Question',
+      id: data._id,
+      title: data.title,
+      questionOptions: data.options,
+      answer: data.answer,
+      role: data.role
+    };
+
+    // save a reference to the opened dialog
+    this.manageQuestionsDialogRef = this.matDialog.open(ModalComponent, dialogConfig);
+
+    // subscribe to the reference opened dialog once it is closed and check for the data update value
+    this.manageQuestionsDialogRef.afterClosed().subscribe({
+      next: (updateValue) => {
+        this.isDataUpdated = updateValue;
+
+        if (this.isDataUpdated) {
+          this.fetchRoleData(this.userSelectedRole);
+        }
+      }
+    })
+  }
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

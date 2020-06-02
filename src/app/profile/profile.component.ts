@@ -9,14 +9,19 @@ import { UserDetails } from '../interfaces/userdetails';
 })
 export class ProfileComponent implements OnInit {
   details: UserDetails;
+  serviceError = false;
+  serviceErrorMessage: string;
 
   constructor(private auth: AuthService) { }
 
   ngOnInit() {
     this.auth.profile().subscribe(user => {
+      // console.log(user);
       this.details = user;
     }, (err) => {
-      console.error(err);
+      this.serviceError = true;
+      this.serviceErrorMessage = err;
+      // console.error(err);
     });
   }
 

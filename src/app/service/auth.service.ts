@@ -90,6 +90,7 @@ export class AuthService {
       map((data: TokenResponse) => {
         if (data.token) {
           this.saveToken(data.token);
+          this.router.navigateByUrl('/admin/login');
         }
         return data;
       })

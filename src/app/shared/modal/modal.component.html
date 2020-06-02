@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>{{modalTitle}}</h2>
+
+<form [formGroup]="questionUpdateForm" autocomplete="off" novalidate (ngSubmit)="updateQuestion(questionId, questionUpdateForm.value)"
+  fxLayout="column wrap" fxLayoutAlign="center center" fxLayoutGap="10px">
+  <mat-dialog-content>
+    <mat-form-field class="example-full-width">
+      <mat-label>Question</mat-label>
+      <input matInput placeholder="Question title" formControlName="title" id="title" [value]="title">
+      <mat-hint align="end">Minimum 5 characters.</mat-hint>
+      <mat-error *ngIf="!questionUpdateForm.get('title').valid && questionUpdateForm.get('title').touched">Question
+        title is required</mat-error>
+      <mat-error *ngIf="!questionUpdateForm.get('title').valid && questionUpdateForm.get('title').errors.minlength">Minimum
+        {{ questionUpdateForm.get('title').errors.minlength.requiredLength }} characters required</mat-error>
+    </mat-form-field>
+
+    <div *ngFor="let control of questionControlsArray.controls; let i = index">
+      <mat-form-field appearance="fill">
+        <mat-label>Option {{i + 1}}</mat-label>
+        <input matInput placeholder="" [formControl]="questionControlsArray.controls[i]" [value]="questionControlsArray.controls[i].value">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Correct Answer</mat-label>
+      <input matInput placeholder="" formControlName="answer" id="answer" [value]="answer">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Role</mat-label>
+      <input matInput placeholder="" formControlName="role" id="role" [value]="role">
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" [disabled]="!questionUpdateForm.valid">Update</button>
+    <button type="button" mat-raised-button (click)="onCancel()">Close</button>
+  </mat-dialog-actions>
+</form>
+
+<!-- Tabular data for testing form validity and form control values / errors -->
+<!-- <table>
+  <tr>
+    <th>FormGroup</th>
+    <th>FormControl (questionTitle)</th>
+  </tr>
+  <tr>
+    <td>
+      Touched: {{ questionUpdateForm.touched }}<br />
+      Dirty: {{ questionUpdateForm.dirty }}<br />
+      Valid: {{ questionUpdateForm.valid }}<br />
+      Form values: {{ questionUpdateForm.value | json }}
+    </td>
+    <td>
+      Touched: {{ questionUpdateForm.get('questionTitle').touched }}<br />
+      Dirty: {{ questionUpdateForm.get('questionTitle').dirty }}<br />
+      Valid: {{ questionUpdateForm.get('questionTitle').valid }}<br />
+      Errors: {{ questionUpdateForm.get('questionTitle').errors | json }}<br />
+      Full name value: {{ questionUpdateForm.get('questionTitle').value }}
+    </td>
+  </tr>
+</table> -->

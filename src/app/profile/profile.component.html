@@ -8,4 +8,8 @@
     <label class="col-sm-6 control-label">Email</label>
     <p class="form-control-static">{{ details?.email }}</p>
   </div>
+
+  <div class="col-sm-12 alert alert-danger mt-3" *ngIf="serviceError">
+    {{ serviceErrorMessage }}
+  </div>
 </div>

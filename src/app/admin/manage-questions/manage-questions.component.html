@@ -8,43 +8,50 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  
-  <table mat-table [dataSource]="quizQuestions" class="mat-elevation-z8" class="mt-5" *ngIf="showTableHeader">
+
+  <table mat-table [dataSource]="sortedQuizQuestions" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8" class="mt-5" *ngIf="showTableHeader">
     <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Title </th>
-      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+      <td mat-cell *matCellDef="let question"> {{question.title}} </td>
     </ng-container>
-  
+
     <ng-container matColumnDef="options">
       <th mat-header-cell *matHeaderCellDef> Options </th>
-      <td mat-cell *matCellDef="let element"> {{element.options}} </td>
+      <td mat-cell *matCellDef="let question"> {{question.options}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="answer">
       <th mat-header-cell *matHeaderCellDef> Answer </th>
-      <td mat-cell *matCellDef="let element"> {{element.answer}} </td>
+      <td mat-cell *matCellDef="let question"> {{question.answer}} </td>
     </ng-container>
+
+    <!-- <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef> Role </th>
+      <td mat-cell *matCellDef="let question"> {{question.role}} </td>
+    </ng-container> -->
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>  </th>
-      <!-- <td mat-cell *matCellDef="let element"> {{element._id}} </td> -->
-      <td mat-cell *matCellDef="let element">
-        <!-- <button (click)="getQuestion(element._id)">Edit</button> -->
-        <button mat-raised-button (click)="openDialog()">Open modal</button>
+      <!-- <td mat-cell *matCellDef="let question"> {{question._id}} </td> -->
+      <td mat-cell *matCellDef="let question">
+        <!-- <button (click)="getQuestion(question._id)">Edit</button> -->
+        <button mat-raised-button (click)="openDialog(question)">Open modal</button>
       </td>
     </ng-container>
-    
+
     <!-- <ng-container matColumnDef="role">
       <th mat-header-cell *matHeaderCellDef> Role </th>
-      <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+      <td mat-cell *matCellDef="let question"> {{question.role}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="shortrole">
       <th mat-header-cell *matHeaderCellDef> shortrole </th>
-      <td mat-cell *matCellDef="let element"> {{element.shortrole}} </td>
+      <td mat-cell *matCellDef="let question"> {{question.shortrole}} </td>
     </ng-container> -->
-  
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>  
+  </table>
+
+  <mat-paginator mat-paginator [pageSizeOptions]="pageSizeOptions" (change)="pageSizeChange($event)"></mat-paginator>
 </div>
