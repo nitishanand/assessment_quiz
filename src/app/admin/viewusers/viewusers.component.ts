@@ -17,7 +17,6 @@ export class ViewusersComponent implements OnInit {
 
   // store reference to the subscription
   usersSub: Subscription;
-  // error: any;
 
   // flag to trigger a service error if any and display a error message accordingly.
   serviceError = false;
@@ -29,22 +28,13 @@ export class ViewusersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    /* this.usersSub = this.usersService
-      .getUsers()
-      .subscribe(
-        users => this.usersData = users,
-        err => this.error = err
-      ); */
-
-    this.usersService.getUsers().subscribe(
+    this.usersSub = this.usersService.getUsers().subscribe(
       (data) => {
         this.usersData = data;
-        // console.log(this.usersData);
       },
       (err) => {
         this.serviceError = true;
         this.serviceErrorMessage = 'There was a problem in retrieving data from the database. Try again later.';
-        // console.log(this.serviceErrorMessage)
       }
     );
   }

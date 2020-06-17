@@ -8,7 +8,8 @@ import { RolesService } from 'src/app/service/roles.service';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Sort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
-import { ModalComponent } from 'src/app/shared/modal/modal.component';
+import { ManageQuestionsModalComponent } from 'src/app/admin/managequestionsmodal/managequestionsmodal.component';
+import { ConfirmComponent } from 'src/app/shared/modals/confirm/confirm.component';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -23,6 +24,7 @@ export class ManageQuestionsComponent implements OnInit {
   sortedQuizQuestions: Question[];
 
   isDataUpdated: boolean = false;
+  isQuestionDeleted: boolean = false;
 
   displayedColumns: string[] = ['title', 'options', 'answer', 'id'];
 
@@ -36,6 +38,10 @@ export class ManageQuestionsComponent implements OnInit {
 
   // hide the table headers initially before any roles are fetched from the database
   showTableHeader = false;
+  showTablePagination = false;
+
+  dataToDelete: boolean;
+  roleID: string;
 
   // @ViewChild(MatSort) sort: MatSort;
 
@@ -48,7 +54,8 @@ export class ManageQuestionsComponent implements OnInit {
   // MatPaginator Output
   pageEvent: PageEvent;
 
-  manageQuestionsDialogRef: MatDialogRef<ModalComponent>;
+  manageQuestionsDialogRef: MatDialogRef<ManageQuestionsModalComponent>;
+  confirmDialogRef: MatDialogRef<ConfirmComponent>;
 
   constructor(
     public quizQuestionsService: QuizQuestionsService,
@@ -82,8 +89,21 @@ export class ManageQuestionsComponent implements OnInit {
         this.serviceError = true;
         this.serviceErrorMessage = 'There is a problem fetching questions from the database. Kindly try again later.';
       },
-      complete: () => this.showTableHeader = true
+      complete: () => {
+        this.showTableHeader = true;
+        this.showTablePagination = true;
+      }
     });
+  }
+
+  deleteQuestion(roleid) {
+    this.quizQuestionsService.deleteQuestion(roleid).subscribe({
+      next: (data) => console.log(data),
+      error: (err) => console.log(err),
+      complete: () => {
+        this.fetchRoleData(this.userSelectedRole);
+      }
+    })
   }
 
   sortData(sort: Sort) {
@@ -114,14 +134,14 @@ export class ManageQuestionsComponent implements OnInit {
 
   openDialog(data): void {
     // configuration for the manageQuestionDialog
-    const dialogConfig = new MatDialogConfig();
+    const manageQuestionsDialogConfig = new MatDialogConfig();
 
-    dialogConfig.disableClose = true;
-    dialogConfig.id = 'modal-component';
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '50%';
-    dialogConfig.height = '90%';
-    dialogConfig.data = {
+    manageQuestionsDialogConfig.disableClose = true;
+    manageQuestionsDialogConfig.id = 'modal-component';
+    manageQuestionsDialogConfig.autoFocus = true;
+    manageQuestionsDialogConfig.width = '50%';
+    manageQuestionsDialogConfig.height = '90%';
+    manageQuestionsDialogConfig.data = {
       // pass title and relevant question data to the modal
       modalTitle: 'Edit Question',
       id: data._id,
@@ -132,7 +152,7 @@ export class ManageQuestionsComponent implements OnInit {
     };
 
     // save a reference to the opened dialog
-    this.manageQuestionsDialogRef = this.matDialog.open(ModalComponent, dialogConfig);
+    this.manageQuestionsDialogRef = this.matDialog.open(ManageQuestionsModalComponent, manageQuestionsDialogConfig);
 
     // subscribe to the reference opened dialog once it is closed and check for the data update value
     this.manageQuestionsDialogRef.afterClosed().subscribe({
@@ -141,6 +161,44 @@ export class ManageQuestionsComponent implements OnInit {
 
         if (this.isDataUpdated) {
           this.fetchRoleData(this.userSelectedRole);
+        }
+      }
+    })
+  }
+
+  openConfirmDialog(data): void {
+    // configuration for the confirmDialog
+    const confirmDialogConfig = new MatDialogConfig();
+
+    confirmDialogConfig.disableClose = true;
+    confirmDialogConfig.id = 'modal-component';
+    confirmDialogConfig.autoFocus = true;
+    confirmDialogConfig.width = '50%';
+    confirmDialogConfig.height = '50%';
+    confirmDialogConfig.data = {
+      // pass title and relevant question data to the modal
+      modalTitle: 'Delete Question',
+      queryTitle: 'Question',
+      id: data._id,
+      title: data.title,
+    };
+
+    // save a reference to the opened dialog
+    this.confirmDialogRef = this.matDialog.open(ConfirmComponent, confirmDialogConfig);
+
+    // subscribe to the reference opened dialog once it is closed and check for the data update value
+    this.confirmDialogRef.afterClosed().subscribe({
+      next: (updateValue) => {
+        /* this.isDataUpdated = updateValue;
+
+        if (this.isDataUpdated) {
+          this.fetchRoleData(this.userSelectedRole);
+        } */
+        this.dataToDelete = updateValue.deleteData;
+        this.roleID = updateValue.deleteDataId;
+
+        if (this.dataToDelete) {
+          this.deleteQuestion(this.roleID);
         }
       }
     })

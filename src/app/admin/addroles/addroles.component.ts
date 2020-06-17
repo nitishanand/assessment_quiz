@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Role } from 'src/app/interfaces/role';
 import { NgForm } from '@angular/forms';
-import { AddRoleService } from 'src/app/service/add-role.service';
+// import { AddRoleService } from 'src/app/service/add-role.service';
 import { RolesService } from 'src/app/service/roles.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
@@ -24,13 +24,13 @@ export class AddrolesComponent implements OnInit {
   serviceErrorMessage;
 
   constructor(
-    private addRoleService: AddRoleService,
+    // private addRoleService: AddRoleService,
     private rolesService: RolesService,
     public authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.rolesSub = this.rolesService
+    /* this.rolesSub = this.rolesService
       .getRoles()
       .subscribe(
         roles => this.availableRoles = roles,
@@ -38,7 +38,25 @@ export class AddrolesComponent implements OnInit {
         () => {
           this.rolesLoaded = true;
         }
-      );
+      ); */
+    this.getRoles();
+  }
+
+  getRoles(): void {
+    this.rolesSub = this.rolesService
+      .getRoles()
+      /* .subscribe(
+        roles => this.availableRoles = roles,
+        err => this.error = err,
+        () => {
+          this.rolesLoaded = true;
+        }
+      ); */
+      .subscribe({
+        next: (roles) => this.availableRoles = roles,
+        error: (err) => this.error = err,
+        complete: () => this.rolesLoaded = true
+      })
   }
 
   onAddRole(form: NgForm) {
@@ -53,14 +71,19 @@ export class AddrolesComponent implements OnInit {
       return;
     }
 
-    this.addRoleService
+    this.rolesService
       .addRole(role)
-      .subscribe(
+      /* .subscribe(
         data => console.log(data),
         err => {
           this.serviceErrorMessage = err;
         }
-      );
+      ); */
+      .subscribe({
+        next: (data) => console.log(data),
+        error: (err) => this.serviceErrorMessage = err,
+        complete: () => this.getRoles()
+      })
 
     // Reset the previous field text
     form.resetForm();

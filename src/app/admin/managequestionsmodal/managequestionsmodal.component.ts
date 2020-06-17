@@ -15,10 +15,10 @@ interface DialogData {
 
 @Component({
   selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  templateUrl: './managequestionsmodal.component.html',
+  styleUrls: ['./managequestionsmodal.component.css']
 })
-export class ModalComponent implements OnInit {
+export class ManageQuestionsModalComponent implements OnInit {
   questionId: number;
   modalTitle: string;
   title: string;
@@ -34,7 +34,7 @@ export class ModalComponent implements OnInit {
 
   constructor(
     public quizQuestionsService: QuizQuestionsService,
-    public dialogRef: MatDialogRef<ModalComponent>,
+    public dialogRef: MatDialogRef<ManageQuestionsModalComponent>,
     @Inject(MAT_DIALOG_DATA) public modalData: DialogData
   ) {
     // get the title from component where modal is used
@@ -48,8 +48,8 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() {
     this.questionUpdateForm = new FormGroup({
-      title: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      answer: new FormControl(''),
+      title: new FormControl('', [Validators.minLength(5)]),
+      answer: new FormControl('', [Validators.required, Validators.minLength(5)]),
       role: new FormControl('')
     });
 
@@ -93,5 +93,9 @@ export class ModalComponent implements OnInit {
 
   questionControlsArrayItem(value): void {
     this.questionControlsArray.push(new FormControl(value));
+  }
+
+  public checkError = (controlName: string, errorName: string) => {
+    return this.questionUpdateForm.controls[controlName].hasError(errorName);
   }
 }

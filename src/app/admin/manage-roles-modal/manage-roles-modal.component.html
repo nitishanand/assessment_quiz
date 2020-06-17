@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>{{modalTitle}}</h2>
+
+<form [formGroup]="roleUpdateForm" autocomplete="off" novalidate (ngSubmit)="updateRole(roleId, roleUpdateForm.value)"
+  fxLayout="column wrap" fxLayoutAlign="center center" fxLayoutGap="10px">
+  <mat-dialog-content>
+    <mat-form-field class="example-full-width">
+      <mat-label>Role</mat-label>
+      <input matInput placeholder="Role name" formControlName="name" id="name" [value]="name">
+      <!-- <mat-hint align="end">Minimum 5 characters.</mat-hint> -->
+      <div class="alert alert-danger" *ngIf="(roleUpdateFormControl.name.touched) && (roleUpdateFormControl.name.errors?.required)">
+        Name is required
+      </div>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" [disabled]="!roleUpdateForm.valid">Update</button>
+    <button type="button" mat-raised-button (click)="onCancel()">Close</button>
+  </mat-dialog-actions>
+</form>
+
+<!-- Tabular data for testing form validity and form control values / errors -->
+<!-- <table>
+  <tr>
+    <th>FormGroup</th>
+    <th>FormControl (questionTitle)</th>
+  </tr>
+  <tr>
+    <td>
+      Touched: {{ roleUpdateForm.touched }}<br />
+      Dirty: {{ roleUpdateForm.dirty }}<br />
+      Valid: {{ roleUpdateForm.valid }}<br />
+      Form values: {{ roleUpdateForm.value | json }}
+    </td>
+    <td>
+      Touched: {{ roleUpdateForm.get('questionTitle').touched }}<br />
+      Dirty: {{ roleUpdateForm.get('questionTitle').dirty }}<br />
+      Valid: {{ roleUpdateForm.get('questionTitle').valid }}<br />
+      Errors: {{ roleUpdateForm.get('questionTitle').errors | json }}<br />
+      Full name value: {{ roleUpdateForm.get('questionTitle').value }}
+    </td>
+  </tr>
+</table> -->

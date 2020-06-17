@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { of } from 'rxjs';
 import { Question } from '../interfaces/question';
 import { User } from '../interfaces/user';
 import { throwError } from 'rxjs';
@@ -51,6 +50,10 @@ export class QuizQuestionsService {
 
   updateQuestion(questionId: string, questionData: Question) {
     return this.httpClient.put<Question>(api_url + '/api/v1/questions' + '/' + questionId, questionData);
+  }
+
+  deleteQuestion(questionId: string) {
+    return this.httpClient.delete(api_url + '/api/v1/questions' + '/' + questionId);
   }
 
   // handling errors

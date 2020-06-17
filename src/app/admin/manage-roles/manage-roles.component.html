@@ -1,0 +1,36 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="sortedRoles" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8" *ngIf="showTableHeader">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let role"> {{role.name}} </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="options">
+      <th mat-header-cell *matHeaderCellDef> Options </th>
+      <td mat-cell *matCellDef="let question"> {{question.options}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="answer">
+      <th mat-header-cell *matHeaderCellDef> Answer </th>
+      <td mat-cell *matCellDef="let question"> {{question.answer}} </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let role">
+        <button mat-raised-button (click)="openDialog(role)">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+        </button>
+
+        <button mat-raised-button (click)="openConfirmDialog(role)">
+          <mat-icon aria-hidden="false" aria-label="Example delete icon">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator mat-paginator [pageSizeOptions]="pageSizeOptions" (change)="pageSizeChange($event)"  *ngIf="showTableHeader"></mat-paginator>
+</div>

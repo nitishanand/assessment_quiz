@@ -38,9 +38,6 @@ export class AddquestionComponent implements OnInit {
       title: form.value.title,
       options: this.optionsList,
       answer: form.value.answer,
-      /* min_exp: form.value.min_exp,
-      max_exp: form.value.max_exp,
-      question_type: form.value.question_type */
       role: form.value.role,
       shortrole: shortRole
     };
@@ -49,19 +46,10 @@ export class AddquestionComponent implements OnInit {
       return;
     }
 
-    /* this.quizQuestionsService
-      .createQuestion(question)
-      .subscribe({}
-        data => console.log(data),
-        err => this.error = err
-      ); */
-
     this.quizQuestionsService.createQuestion(question).subscribe({
-      next: data => console.log(data),
+      // next: data => console.log(data),
       error: err => this.error = err
     });
-
-    // console.log(form.value.title);
 
     // Reset the previous field text
     form.resetForm();
@@ -69,14 +57,8 @@ export class AddquestionComponent implements OnInit {
   }
 
   onAddOption(option) {
-    // option.preventDefault();
-
-    // console.log(option.value);
-
     if (option.value) {
       this.optionsList.push(option.value);
-      // console.log('Add button clicked!');
-      // console.log(this.optionsList);
       option.reset();
     }
   }
@@ -90,13 +72,6 @@ export class AddquestionComponent implements OnInit {
   }
 
   getRoles() {
-    /* this.rolesSub = this.rolesService
-      .getRoles()
-      .subscribe(
-        roles => this.roles = roles,
-        err => this.error = err
-      ); */
-
     this.rolesSub = this.rolesService.getRoles().subscribe({
       next: roles => this.roles = roles,
       error: err => this.error = err
@@ -104,7 +79,6 @@ export class AddquestionComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.addQuestionSub.unsubscribe();
     this.rolesSub.unsubscribe();
   }
 

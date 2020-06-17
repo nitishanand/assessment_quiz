@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { User } from '../interfaces/user';
 
 const api_url = environment.apiUrl;
@@ -15,10 +15,8 @@ export class UsersService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getUsers() {
-    return this.httpClient.get<any>(api_url + '/api/v1/users').pipe(
-      catchError(this.handleError)
-    );
+  getUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(api_url + '/api/v1/users');
   }
 
   addUserScore(user: User) {
@@ -26,7 +24,7 @@ export class UsersService {
   }
 
   private handleError(err: HttpErrorResponse | any) {
-    console.error('An error occurred', err);
+    // console.error('An error occurred', err);
     return throwError(err.message || err);
   }
 }

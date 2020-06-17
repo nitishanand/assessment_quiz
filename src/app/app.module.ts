@@ -15,29 +15,32 @@ import { AppRoutingModule } from './app-routing.module';
 import { StorageServiceModule } from 'angular-webstorage-service';
 
 import { environment } from '../environments/environment';
-import { AddquestionComponent } from './admin/addquestion/addquestion.component';
+// import { AddquestionComponent } from './admin/addquestion/addquestion.component';
 
 // Services
 import { QuizQuestionsService } from './service/quiz-questions.service';
 import { AuthService } from './service/auth.service';
 import { RegisterComponent } from './register/register.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EventemitterService } from './service/eventemitter.service';
 import { BeginComponent } from './begin/begin.component';
-import { AddrolesComponent } from './admin/addroles/addroles.component';
-import { ViewusersComponent } from './admin/viewusers/viewusers.component';
+// import { AddrolesComponent } from './admin/addroles/addroles.component';
+// import { ViewusersComponent } from './admin/viewusers/viewusers.component';
 import { ConnectionService } from 'ng-connection-service';
 import { ToastrModule } from 'ngx-toastr';
 import { CreateuserComponent } from './createuser/createuser.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuardService } from './guards/auth-guard.service';
-import { LoginComponent } from './login/login.component';
-import { ManageQuestionsComponent } from './admin/manage-questions/manage-questions.component';
+// import { LoginComponent } from './login/login.component';
+// import { ManageQuestionsComponent } from './admin/manage-questions/manage-questions.component';
 import { InterceptorService } from './service/interceptor.service';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { LoaderService } from './service/loader.service';
-import { ModalComponent } from './shared/modal/modal.component';
-// import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material';
+// import { ManageQuestionsModalComponent } from './shared/managequestionsmodal/managequestionsmodal.component';
+// import { AdminComponent } from './admin/admin/admin.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdminModule } from './admin/admin.module';
+import { ConfirmComponent } from './shared/modals/confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -46,18 +49,20 @@ import { ModalComponent } from './shared/modal/modal.component';
     FooterComponent,
     QuizComponent,
     DomchangedirectiveDirective,
-    LoginComponent,
-    AddquestionComponent,
+    // LoginComponent,
+    // AddquestionComponent,
     RegisterComponent,
-    NotFoundComponent,
+    PageNotFoundComponent,
     BeginComponent,
-    AddrolesComponent,
-    ViewusersComponent,
+    // AddrolesComponent,
+    // ViewusersComponent,
     CreateuserComponent,
     ProfileComponent,
-    ManageQuestionsComponent,
+    // ManageQuestionsComponent,
     LoaderComponent,
-    ModalComponent
+    // ManageQuestionsModalComponent,
+    ConfirmComponent,
+    // AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -66,26 +71,21 @@ import { ModalComponent } from './shared/modal/modal.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
     StorageServiceModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgbModule,
+    AdminModule,
+    AppRoutingModule
   ],
   providers: [QuizQuestionsService,AuthService,EventemitterService,ConnectionService,AuthGuardService,LoaderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
-    }/* ,
-    {
-      provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: {
-        width: '500px',
-        height: '500px'
-      } as MatDialogConfig
-    } */
+    }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalComponent]
+  entryComponents: [ConfirmComponent]
 })
 export class AppModule { }

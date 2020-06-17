@@ -9,7 +9,7 @@
     </mat-select>
   </mat-form-field>
 
-  <table mat-table [dataSource]="sortedQuizQuestions" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8" class="mt-5" *ngIf="showTableHeader">
+  <table mat-table [dataSource]="sortedQuizQuestions" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8" *ngIf="showTableHeader">
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
       <td mat-cell *matCellDef="let question"> {{question.title}} </td>
@@ -34,8 +34,25 @@
       <th mat-header-cell *matHeaderCellDef>  </th>
       <!-- <td mat-cell *matCellDef="let question"> {{question._id}} </td> -->
       <td mat-cell *matCellDef="let question">
-        <!-- <button (click)="getQuestion(question._id)">Edit</button> -->
-        <button mat-raised-button (click)="openDialog(question)">Open modal</button>
+        <!-- <button mat-icon-button (click)="openDialog(question)">
+          <span matTooltip="Edit">
+            <mat-icon>edit</mat-icon>
+          </span>
+        </button>
+
+        <a (click)="openConfirmDialog(question)">
+          <span matTooltip="Delete">
+            <mat-icon aria-hidden="false" aria-label="Example delete icon">delete</mat-icon>
+          </span>
+        </a> -->
+            
+        <button mat-raised-button (click)="openDialog(question)">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+        </button>
+
+        <button mat-raised-button (click)="openConfirmDialog(question)">
+          <mat-icon aria-hidden="false" aria-label="Example delete icon">delete</mat-icon>
+        </button>
       </td>
     </ng-container>
 
@@ -53,5 +70,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator mat-paginator [pageSizeOptions]="pageSizeOptions" (change)="pageSizeChange($event)"></mat-paginator>
+  <mat-paginator mat-paginator [pageSizeOptions]="pageSizeOptions" (change)="pageSizeChange($event)"  *ngIf="showTableHeader"></mat-paginator>
 </div>

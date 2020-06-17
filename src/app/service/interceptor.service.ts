@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { finalize, tap, catchError } from 'rxjs/operators';
+import { finalize, tap, catchError, retry } from 'rxjs/operators';
 import { LoaderService } from './loader.service';
 
 import { ToastrService } from 'ngx-toastr';
@@ -19,7 +19,8 @@ export class InterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.loaderService.show();
 
-    return next.handle(req).pipe(
+    return next.handle(req)
+    .pipe(
       tap(evt => {
         if (evt instanceof HttpResponse) {
           if (evt.body && evt.body.success) {
@@ -29,13 +30,14 @@ export class InterceptorService implements HttpInterceptor {
           }
         }
       }),
+      retry(1),
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
 
         if (error.error instanceof ErrorEvent) {
           errorMessage = `Error: ${error.error.message}`;
         } else {
-          errorMessage = `Error: ${error.status} \nMessage: ${error.message}`;
+          errorMessage = `Error Code: ${error.status} \nMessage: ${error.message}`;
         }
 
         // console.log(errorMessage);

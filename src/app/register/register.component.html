@@ -8,7 +8,7 @@
   Kindly provide your Name, Email and Role applied for:
 </p>
 
-<form #f="ngForm" (ngSubmit)="onSubmitForm(f)">
+<!-- <form #f="ngForm" (ngSubmit)="onSubmitForm(f)">
   <div class="form-group">
     <label for="name">Name</label>
     <input
@@ -20,7 +20,7 @@
     name="name"
     id="name"
     placeholder="Enter your name"
-    class="form-control" (change)="log(name)">
+    class="form-control">
     <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
       <div *ngIf="name.errors.required">
         Name is required.
@@ -64,4 +64,50 @@
   <div class="col-sm-12 alert alert-danger mt-3" *ngIf="serviceError">
     {{ serviceErrorMessage }}
   </div>
+</form> -->
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmitForm(registerForm.value)">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" placeholder="Enter your name" class="form-control" formControlName="name">
+
+    <!-- error messages -->
+    <div class="alert alert-danger" *ngIf="(registerFormControl.name.touched) && (registerFormControl.name.errors?.required)">
+      Name is required
+    </div>
+    <div class="alert alert-danger" *ngIf="(registerFormControl.name.touched) && (registerFormControl.name.errors?.minlength)">
+      Minimum 3 characters required!!
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <input type="email" placeholder="Enter email" class="form-control" formControlName="email">
+
+    <!-- error messages -->
+    <div class="alert alert-danger" *ngIf="(registerFormControl.email.touched) && (registerFormControl.email.errors?.required)">
+      Email is required
+    </div>
+    <div class="alert alert-danger" *ngIf="(registerFormControl.email.touched) && (registerFormControl.email.errors?.email)">
+      Enter a valid email address
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="role">Role</label>
+    <select class="form-control" formControlName="role" (change)="onRoleSelectionChange($event)">
+      <option *ngFor="let role of roles" [value]="role.shortrole">
+        {{ role.name }}
+      </option>
+    </select>
+
+    <!-- error messages -->
+    <div class="alert alert-danger" *ngIf="(registerFormControl.role.touched) && (registerFormControl.role.errors?.required)">
+      Role is required
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid" [ngClass]="registerForm.invalid ? 'disabled' : ''">
+    Register
+  </button>
 </form>
