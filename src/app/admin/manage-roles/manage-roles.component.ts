@@ -8,6 +8,8 @@ import { RolesService } from 'src/app/service/roles.service';
 
 import { ManageRolesModalComponent } from '../manage-roles-modal/manage-roles-modal.component';
 import { ConfirmComponent } from 'src/app/shared/modals/confirm/confirm.component';
+import { Question } from 'src/app/interfaces/question';
+import { QuizQuestionsService } from 'src/app/service/quiz-questions.service';
 
 @Component({
   selector: 'app-manage-roles',
@@ -42,6 +44,7 @@ export class ManageRolesComponent implements OnInit {
 
   constructor(
     private rolesService: RolesService,
+    private quizQuestionsService: QuizQuestionsService,
     public matDialog: MatDialog
   ) { }
 
@@ -64,6 +67,14 @@ export class ManageRolesComponent implements OnInit {
         this.showTablePagination = true;
       }
     })
+  }
+
+  updateQuestionRole(shortRole: string, updatedShortRole: string) {
+    this.quizQuestionsService.updateQuestionRole(shortRole, updatedShortRole).subscribe({
+      next: () => {},
+      error: (err) => console.log(err),
+      complete: () => {}
+    });
   }
 
   deleteRole(roleid) {
@@ -107,10 +118,10 @@ export class ManageRolesComponent implements OnInit {
     manageRolesDialogConfig.height = '50%';
     manageRolesDialogConfig.data = {
       // pass title and relevant question data to the modal
-      modalTitle: 'Edit Roles',
+      modalTitle: 'Edit Role',
       id: data._id,
       name: data.name,
-      shorRole: data.shortrole
+      shortRole: data.shortrole
     };
 
     // save a reference to the opened dialog
@@ -123,7 +134,13 @@ export class ManageRolesComponent implements OnInit {
 
         if (this.isDataUpdated) {
           this.getRoles();
+          this.updateQuestionRole(updateValue.shortRole, updateValue.updatedShortRole);
         }
+
+        // console.log(updateValue);
+      },
+      error: (err) => {
+        console.log(err);
       }
     })
   }

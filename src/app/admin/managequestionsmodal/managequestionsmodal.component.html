@@ -5,20 +5,18 @@
   <mat-dialog-content>
     <mat-form-field class="example-full-width">
       <mat-label>Question</mat-label>
-      <input matInput placeholder="Question title" formControlName="title" id="title" [value]="title">
+      <input matInput placeholder="Question title" formControlName="title" id="title" selected="title">
       <mat-hint align="end">Minimum 5 characters.</mat-hint>
-      <!-- <mat-error *ngIf="(!questionUpdateForm.get('title').valid) && questionUpdateForm.get('title').touched">
-        Question title is required
-       </mat-error>-->
-      <mat-error *ngIf="checkError('title', 'required')">
+      <mat-error *ngIf="questionUpdateForm.controls.title.errors?.required && questionUpdateForm.controls.title.touched">
         Question title is required
       </mat-error>
-      <mat-error *ngIf="checkError('title', 'minlength')">Minimum
-        {{ questionUpdateForm.get('title').errors.minlength.requiredLength }} characters required</mat-error>
+      <mat-error *ngIf="questionUpdateForm.controls.title.errors?.minlength && questionUpdateForm.controls.title.touched">
+        Minimum {{ questionUpdateForm.get('title').errors.minlength.requiredLength }} characters required
+      </mat-error>
     </mat-form-field>
 
     <!-- Tabular data for testing form validity and form control values / errors -->
-    <table>
+    <!-- <table>
       <tr>
         <th>FormGroup</th>
         <th>FormControl (questionTitle)</th>
@@ -38,7 +36,7 @@
           Full name value: {{ questionUpdateForm.get('title').value }}
         </td>
       </tr>
-    </table>
+    </table> -->
 
     <div *ngFor="let control of questionControlsArray.controls; let i = index">
       <mat-form-field appearance="fill">
@@ -54,7 +52,11 @@
 
     <mat-form-field class="example-full-width">
       <mat-label>Role</mat-label>
-      <input matInput placeholder="" formControlName="role" id="role" [value]="role">
+      <mat-select [(ngModel)]="shortrole" [value]="shortrole" [placeholder]="shortrole" [ngModelOptions]="{standalone: true}" (ngModelChange)="onRoleSelectionChange()">
+        <mat-option *ngFor="let role of roleOptions" [value]="role.shortrole">
+          {{ role.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </mat-dialog-content>
 

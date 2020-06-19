@@ -38,7 +38,7 @@ export class AddquestionComponent implements OnInit {
       title: form.value.title,
       options: this.optionsList,
       answer: form.value.answer,
-      role: form.value.role,
+      // role: form.value.role,
       shortrole: shortRole
     };
 

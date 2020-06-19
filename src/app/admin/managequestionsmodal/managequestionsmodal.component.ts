@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { QuizQuestionsService } from '../../service/quiz-questions.service';
 
@@ -11,6 +11,8 @@ interface DialogData {
   questionOptions: string[];
   answer: string;
   role: string;
+  shortrole: string;
+  roles: string[];
 }
 
 @Component({
@@ -24,7 +26,11 @@ export class ManageQuestionsModalComponent implements OnInit {
   title: string;
   options: string[];
   answer: string;
-  role: string;
+  // role: string;
+  shortrole: string;
+  roleOptions: string[];
+
+  userSelectedRole: string;
 
   isQuestionUpdated: boolean = false;
 
@@ -43,22 +49,29 @@ export class ManageQuestionsModalComponent implements OnInit {
     this.title = modalData.title;
     this.options = modalData.questionOptions;
     this.answer = modalData.answer;
-    this.role = modalData.role;
+    this.userSelectedRole = modalData.role;
+    this.shortrole = modalData.shortrole;
+    this.roleOptions = modalData.roles;
   }
 
   ngOnInit() {
     this.questionUpdateForm = new FormGroup({
-      title: new FormControl('', [Validators.minLength(5)]),
+      title: new FormControl('', [Validators.required, Validators.minLength(5)]),
       answer: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      role: new FormControl('')
+      role: new FormControl(''),
+      // roleoptions: new FormControl('')
     });
 
-    let loopInit = 0;
+    let optionsLoopInit = 0;
 
-    while(loopInit < this.options.length) {
-      this.questionControlsArrayItem(this.options[loopInit]);
-      loopInit++;
+    while(optionsLoopInit < this.options.length) {
+      this.questionControlsArrayItem(this.options[optionsLoopInit]);
+      optionsLoopInit++;
     }
+  }
+
+  onRoleSelectionChange() {
+    this.userSelectedRole = this.shortrole;
   }
 
   onCancel() {
@@ -67,7 +80,7 @@ export class ManageQuestionsModalComponent implements OnInit {
   }
 
   updateQuestion(questionId, questionFormValue) {
-    let updatedOptions: string[] = [];
+    /* let updatedOptions: string[] = [];
     let initValue = 0;
 
     while(initValue < this.questionControlsArray.controls.length) {
@@ -76,18 +89,22 @@ export class ManageQuestionsModalComponent implements OnInit {
     }
 
     questionFormValue.options = updatedOptions;
+    questionFormValue.shortrole = this.shortrole;
 
     if (this.questionUpdateForm.valid) {
       this.quizQuestionsService.updateQuestion(questionId, questionFormValue).subscribe({
         next: (data) => {
-          // this.dialogRef.componentInstance.isQuestionUpdated = true;
           this.isQuestionUpdated = true;
           this.dialogRef.close(this.isQuestionUpdated);
         },
         error: (err) => {
           console.log(err);
         }
-      })
+      });
+    } */
+
+    if (this.questionUpdateForm.valid) {
+      console.log(this.questionUpdateForm.value);
     }
   }
 

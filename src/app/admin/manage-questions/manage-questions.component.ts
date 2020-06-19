@@ -148,7 +148,9 @@ export class ManageQuestionsComponent implements OnInit {
       title: data.title,
       questionOptions: data.options,
       answer: data.answer,
-      role: data.role
+      role: data.role,
+      shortrole: data.shortrole,
+      roles: this.roles
     };
 
     // save a reference to the opened dialog

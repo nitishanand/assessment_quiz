@@ -52,6 +52,10 @@ export class QuizQuestionsService {
     return this.httpClient.put<Question>(api_url + '/api/v1/questions' + '/' + questionId, questionData);
   }
 
+  updateQuestionRole(shortrole: string, updatedRole: string) {
+    return this.httpClient.put(api_url + '/api/v1/questions', {'shortrole': shortrole, 'updatedrole': updatedRole});
+  }
+
   deleteQuestion(questionId: string) {
     return this.httpClient.delete(api_url + '/api/v1/questions' + '/' + questionId);
   }

@@ -25,7 +25,9 @@ export class InterceptorService implements HttpInterceptor {
         if (evt instanceof HttpResponse) {
           if (evt.body && evt.body.success) {
             this.toastrService.success(evt.body.message, evt.body.title, {
-              positionClass: 'toast-bottom-center'
+              positionClass: 'toast-bottom-center',
+              timeOut: 10000,
+              easing: 'ease-out'
             });
           }
         }

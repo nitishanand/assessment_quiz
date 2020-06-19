@@ -14,6 +14,7 @@ export class ManageRolesModalComponent implements OnInit {
   modalTitle: string;
   name: string;
   shortRole: string;
+  updatedShortRole: string;
 
   isRoleUpdated: boolean = false;
 
@@ -41,20 +42,25 @@ export class ManageRolesModalComponent implements OnInit {
     let updatedOptions: string[] = [];
     let initValue = 0;
 
-    let shortRole = roleUpdateFormValue.name.replace(/\s/g, "");
+    let updatedShortRole = roleUpdateFormValue.name.replace(/\s/g, "");
 
-    roleUpdateFormValue.shortrole = shortRole;
+    // this.updatedShortRole = shortRole;
+
+    roleUpdateFormValue.shortrole = updatedShortRole;
 
     if (this.roleUpdateForm.valid) {
       this.rolesService.updateRole(roleId, roleUpdateFormValue).subscribe({
-        next: (data) => {
-          console.log(data);
-          // this.dialogRef.componentInstance.isRoleUpdated = true;
+        next: () => {
           this.isRoleUpdated = true;
+          // this.dialogRef.close(this.isRoleUpdated);
+          this.dialogRef.close({shortRole: this.shortRole, updatedShortRole: updatedShortRole});
+        },
+        error: () => {
+          this.isRoleUpdated = false;
           this.dialogRef.close(this.isRoleUpdated);
         },
-        error: (err) => {
-          console.log(err);
+        complete: () => {
+
         }
       })
     }
