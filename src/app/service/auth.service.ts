@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
-// import * as auth0 from 'auth0-js';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
-import { UserDetails } from '../interfaces/userdetails';
 import { TokenResponse } from '../interfaces/tokenresponse';
 import { TokenPayload } from '../interfaces/tokenpayload';
 import { Observable } from 'rxjs';
@@ -19,73 +17,68 @@ const api_url = environment.apiUrl;
   providedIn: 'root'
 })
 export class AuthService {
-  /* // Create Auth0 web auth instance
-  auth0 = new auth0.WebAuth({
-    clientID: environment.auth.clientID,
-    domain: environment.auth.domain,
-    responseType: 'token',
-    redirectUri: environment.auth.redirect,
-    audience: environment.auth.audience,
-    scope: environment.auth.scope
-  });
-  // Store authentication data
-  expiresAt: number;
-  userProfile: any;
-  accessToken: string;
-  authenticated: boolean; */
-
   private token: string;
 
-  constructor(private http: HttpClient, private router: Router) {
-    // this.getAccessToken();
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Access-Control-Allow-Origin': '*'
+    })
   }
+
+  constructor(private http: HttpClient, private router: Router) { }
 
   private saveToken(token: string) {
-    localStorage.setItem('mean-token', token);
-    this.token = token;
-  }
+    const now = Math.round(new Date().getTime() / 1000);
+    const item = {
+      value: token,
+      expiry: (now + 3600)
+    };
 
-  private getToken() {
-    if (!this.token) {
-      this.token = localStorage.getItem('mean-token');
+    if (!localStorage.getItem('mean-token')) {
+      localStorage.setItem('mean-token', JSON.stringify(item));
+      this.token = token;
     }
-
-    return this.token;
   }
 
-  public getUserDetails(): UserDetails {
-    const token = this.getToken();
-    let payload;
+  public getToken() {
+    const token = localStorage.getItem('mean-token');
+    const tokenString = JSON.parse(token);
+    const now = Math.round(new Date().getTime() / 1000);
 
-    if (token) {
-      payload = token.split('.')[1];
-      payload = window.atob(payload);
-
-      return JSON.parse(payload);
-    } else {
+    if (!token) {
       return null;
     }
+
+    // check if the token exists and token expiry
+    // if the token is expired, remove the token from local storage
+    if (token && (now >= tokenString.expiry)) {
+      localStorage.removeItem('mean-token');
+      this.router.navigateByUrl('/');
+    }
+
+    // if the token is valid, return the token
+    return token;
   }
 
   public isLoggedIn() {
-    const user = this.getUserDetails();
+    const token = localStorage.getItem('mean-token');
 
-    if (user) {
-      return user.exp > Date.now() / 1000;
-    } else {
-      return false;
+    if (token) {
+      return true;
     }
+
+    return false;
   }
 
   private request(method: 'post'|'get', type: 'login'|'register'|'profile', user?: TokenPayload): Observable<any> {
     let base;
-  
+
     if (method === 'post') {
       base = this.http.post((api_url + `/api/v1/${type}`), user);
     } else {
       base = this.http.get((api_url + `/api/v1/${type}`), { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }
-  
+
     const request = base.pipe(
       map((data: TokenResponse) => {
         if (data.token) {
@@ -95,85 +88,46 @@ export class AuthService {
         return data;
       })
     );
-  
+
     return request;
   }
 
-  public register(user: TokenPayload): Observable<any> {
+  /* public register(user: TokenPayload): Observable<any> {
     return this.request('post', 'register', user);
     // return this.httpClient.post(api_url + '/api/adduserscore', user);
-  }
+  } */
 
   public login(user: TokenPayload): Observable<any> {
+    // console.log(user);
+    // console.log(this.httpOptions);
     return this.request('post', 'login', user);
+    // return this.http.post(api_url + '/api/v1/login', user);
   }
 
   public profile(): Observable<any> {
     return this.request('get', 'profile');
   }
 
+  /* public profile(token) {
+    let params = new HttpParams().set('token', token);
+
+    return this.http.get(api_url + '/api/v1/profile', {params: params});
+  } */
+
+  public register(user: TokenPayload) {
+    return this.http.post(api_url + '/api/v1/login', user);
+  }
+
+  public verify(token: string) {
+    let params = new HttpParams().set('token', token);
+
+    return this.http.get(api_url + '/api/v1/verify', {params: params});
+  }
+
   public logout(): void {
     this.token = '';
     window.localStorage.removeItem('mean-token');
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/admin/login');
   }
-
-  /* login(credentials) {
-    this.auth0.authorize();
-  }
-
-  handleLoginCallback() {
-    // When Auth0 hash parsed, get profile
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken) {
-        window.location.hash = '';
-        this.getUserInfo(authResult);
-      } else if (err) {
-        console.error(`Error: ${err.error}`);
-      }
-      this.router.navigate(['/']);
-    });
-  }
-
-  getAccessToken() {
-    this.auth0.checkSession({}, (err, authResult) => {
-      if (authResult && authResult.accessToken) {
-        this.getUserInfo(authResult);
-      }
-    });
-  }
-
-  getUserInfo(authResult) {
-    // Use access token to retrieve user's profile and set session
-    this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
-      if (profile) {
-        this._setSession(authResult, profile);
-      }
-    });
-  }
-
-  private _setSession(authResult, profile) {
-    // Save authentication data and update login status subject
-    this.expiresAt = authResult.expiresIn * 1000 + Date.now();
-    this.accessToken = authResult.accessToken;
-    this.userProfile = profile;
-    this.authenticated = true;
-  }
-
-  logout() {
-    // Log out of Auth0 session
-    // Ensure that returnTo URL is specified in Auth0
-    // Application settings for Allowed Logout URLs
-    this.auth0.logout({
-      returnTo: 'http://localhost:4200',
-      clientID: environment.auth.clientID
-    });
-  }
-
-  get isLoggedIn(): boolean {
-    // Check if current date is before token
-    // expiration and user is signed in locally
-    return Date.now() < this.expiresAt && this.authenticated;
-  } */
 
 }

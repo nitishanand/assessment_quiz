@@ -11,17 +11,17 @@ import { QuizQuestionsService } from 'src/app/service/quiz-questions.service';
 export class ConfirmComponent implements OnInit {
   modalTitle: string;
   queryTitle: string;
-  questionId: number;
+  dataId: number;
   title: string;
 
-  isQuestionDeleted: boolean = false;
+  isDataToDelete: boolean = false;
 
   constructor(
     public quizQuestionsService: QuizQuestionsService,
     public dialogRef: MatDialogRef<ConfirmComponent>,
     @Inject(MAT_DIALOG_DATA) public modalData
   ) {
-    this.questionId = modalData.id;
+    this.dataId = modalData.id;
     this.modalTitle = modalData.modalTitle;
     this.queryTitle = modalData.queryTitle;
     this.title = modalData.title;
@@ -30,28 +30,14 @@ export class ConfirmComponent implements OnInit {
   ngOnInit() {
   }
 
-  /* deleteQuestion(questionId) {
-    this.quizQuestionsService.deleteQuestion(questionId).subscribe({
-      next: (data) => {
-        // console.log(data);
-        this.isQuestionDeleted = true;
-        this.dialogRef.close(this.isQuestionDeleted);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
-  } */
-  
-  deleteQuestion(questionId): void {
-    let roleToDelete = questionId;
-    this.isQuestionDeleted = true;
+  deleteData(id): void {
+    this.isDataToDelete = true;
     
-    this.dialogRef.close({deleteData: this.isQuestionDeleted, deleteDataId: roleToDelete});
+    this.dialogRef.close({deleteData: this.isDataToDelete, deleteDataId: id});
   }
 
   onCancel(): void {
-    this.dialogRef.close({deleteData: this.isQuestionDeleted});
+    this.dialogRef.close({deleteData: this.isDataToDelete});
   }
 
 }

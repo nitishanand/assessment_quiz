@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
@@ -12,7 +12,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements AfterViewInit {
   userDetails: string[] = [];
   roles: any[] = [];
   quizQuestions: any[];
@@ -32,6 +32,9 @@ export class RegisterComponent implements OnInit {
 
   registerForm;
 
+  // @ViewChild is useful in accessing elements from the view template
+  @ViewChild('nameRef', {static: false}) nameElementRef: ElementRef;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -41,6 +44,11 @@ export class RegisterComponent implements OnInit {
     @Inject(SESSION_STORAGE) private storage: WebStorageService
   ) { }
 
+  // after the view is intialized, set the focus within first textbox
+  ngAfterViewInit() {
+    this.nameElementRef.nativeElement.focus();
+  }
+  
   ngOnInit() {
     this.roles = this.getFromSession('userRoles');
 
@@ -55,12 +63,6 @@ export class RegisterComponent implements OnInit {
       }
     });
 
-    /* this.registerForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      email: new FormControl(''),
-      role: new FormControl('')
-    }); */
-
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -68,16 +70,6 @@ export class RegisterComponent implements OnInit {
     });
 
     if (!this.roles) {
-      /* this.rolesService.getRoles().subscribe(
-        (roles) => {
-          this.roles = roles;
-          this.saveInSession('userRoles', this.roles);
-        },
-        (err) => {
-          this.serviceError = true;
-          this.serviceErrorMessage = 'There is a problem fetching roles from the database. Kindly try again later.';
-        }
-      ); */
       this.rolesService.getRoles().subscribe({
         next: (roles) => {
           this.roles = roles;
@@ -98,7 +90,6 @@ export class RegisterComponent implements OnInit {
 
   onRoleSelectionChange(el) {
     this.userSelectedRole = el.target.options[el.target.options.selectedIndex].text;
-    // console.log(this.userSelectedRole);
   }
 
   onSubmitForm(form) {
@@ -141,14 +132,7 @@ export class RegisterComponent implements OnInit {
         this.serviceErrorMessage = 'There is a problem fetching questions from the database. Kindly try again later.';
       }
     });
-
-    // console.log(this.userDetails[3]);
   }
-
-  /* onSubmitForm(value) {
-    console.log(value);
-  } */
-
 
   saveInSession(key, val) {
     this.storage.set(key, val);
@@ -163,13 +147,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  /* showToaster(){
-    // this.toastr.success("Hello, I'm the toastr message.")
-    this.notifyService.showSuccess('Data shown successfully!', 'Notification');
-  } */
-
   public checkError = (controlName: string, errorName: string) => {
     return this.registerForm.controls[controlName].hasError(errorName);
-    // console.log(this.registerForm.controls[controlName].hasError(errorName));
   }
 }

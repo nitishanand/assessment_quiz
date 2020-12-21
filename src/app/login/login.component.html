@@ -1,29 +1,35 @@
-<form #f="ngForm" (submit)="login()">
-  <div class="form-group">
-    <label for="email">Email address</label>
-    <input
-    required
-    type="email"
-    class="form-control"
-    name="email"
-    placeholder="Enter email"
-    [(ngModel)]="credentials.email">
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <form #f="ngForm" (submit)="login()">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input
+        required
+        type="email"
+        class="form-control"
+        #nameRef
+        name="email"
+        placeholder="Enter email"
+        [(ngModel)]="credentials.email">
+      </div>
+    
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+        required
+        type="password"
+        class="form-control"
+        name="password"
+        placeholder="Password"
+        [(ngModel)]="credentials.password">
+      </div>
+    
+      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit" class="btn btn-invert">Forgot Password</button>
+    
+      <div class="col-sm-12 alert alert-danger mt-3" *ngIf="serviceError">
+        {{ serviceErrorMessage }}
+      </div>
+    </form>
   </div>
-
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-    required
-    type="password"
-    class="form-control"
-    name="password"
-    placeholder="Password"
-    [(ngModel)]="credentials.password">
-  </div>
-
-  <button type="submit" class="btn btn-primary">Sign in!</button>
-
-  <div class="col-sm-12 alert alert-danger mt-3" *ngIf="serviceError">
-    {{ serviceErrorMessage }}
-  </div>
-</form>
+</div>

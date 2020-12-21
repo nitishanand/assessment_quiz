@@ -43,10 +43,6 @@ const routes: Routes = [
         component: ManageQuestionsComponent,
         canActivate: [AuthGuardService]
       },
-      /* {
-        path: '',
-        redirectTo: ''
-      }, */
       {
         path: '**',
         component: PageNotFoundComponent
@@ -60,3 +56,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AdminRoutingModule { }
+export const AdminRoutingComponents = [AdminComponent, LoginComponent, AddquestionComponent, AddrolesComponent, ManageRolesComponent, ViewusersComponent, ManageQuestionsComponent];

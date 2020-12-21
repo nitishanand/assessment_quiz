@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+// components
 import { QuizComponent } from './quiz/quiz.component';
-import { LoginComponent } from './login/login.component';
-// import { AddquestionComponent } from './admin/addquestion/addquestion.component';
+// import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { BeginComponent } from './begin/begin.component';
-// import { AddrolesComponent } from './admin/addroles/addroles.component';
-// import { ViewusersComponent } from './admin/viewusers/viewusers.component';
 import { CreateuserComponent } from './createuser/createuser.component';
 import { ProfileComponent } from './profile/profile.component';
+import { VerifyuserComponent } from './verifyuser/verifyuser.component';
+
+// service(s)
 import { AuthGuardService } from './guards/auth-guard.service';
-// import { ManageQuestionsComponent } from './admin/manage-questions/manage-questions.component';
-// import { AdminComponent } from './admin/admin/admin.component';
 
 const routes: Routes = [
   {
@@ -36,38 +36,14 @@ const routes: Routes = [
     component: CreateuserComponent
   },
   {
+    path: 'verifyuser',
+    component: VerifyuserComponent
+  },
+  {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuardService]
   },
-  /* {
-    path: 'admin', component: AdminComponent, children: [
-      {
-        path: 'addquestion',
-        component: AddquestionComponent,
-        canActivate: [AuthGuardService]
-      },
-      {
-        path: 'addrole',
-        component: AddrolesComponent,
-        canActivate: [AuthGuardService]
-      },
-      {
-        path: 'viewusers',
-        component: ViewusersComponent,
-        canActivate: [AuthGuardService]
-      },
-      {
-        path: 'managequestions',
-        component: ManageQuestionsComponent,
-        canActivate: [AuthGuardService]
-      },
-      {
-        path: '**',
-        component: PageNotFoundComponent
-      }
-    ]
-  }, */
   {
     path: '',
     // redirectTo: '/register',
@@ -90,3 +66,4 @@ const routes: Routes = [
   ]
 })
 export class AppRoutingModule { }
+export const AppRoutingComponents = [RegisterComponent, BeginComponent, QuizComponent, CreateuserComponent, VerifyuserComponent, ProfileComponent];

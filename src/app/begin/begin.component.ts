@@ -32,8 +32,14 @@ export class BeginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userInfo = this.getFromSession('userDetails');
-    this.totalQuestions = this.getFromSession('quizQuestions').length;
+    if (sessionStorage) {
+      if (!this.getFromSession('userDetails')) {
+        this.router.navigate(['/']);
+      }
+
+      this.userInfo = this.getFromSession('userDetails');
+      this.totalQuestions = this.getFromSession('quizQuestions').length;
+    }
   }
 
   beginQuiz() {
@@ -45,7 +51,8 @@ export class BeginComponent implements OnInit {
       if (sessionStorage.getItem(key)) {
         return JSON.parse(sessionStorage.getItem(key));
       } else {
-        console.log('does not exist');
+        // console.log('does not exist');
+        return false;
       }
     }
   }

@@ -79,8 +79,8 @@ export class ManageRolesComponent implements OnInit {
 
   deleteRole(roleid) {
     this.rolesService.deleteRole(roleid).subscribe({
-      next: (data) => console.log(data),
-      error: (err) => console.log(err),
+      next: (data) => {},
+      error: (err) => {},
       complete: () => this.getRoles()
     })
   }
@@ -140,7 +140,7 @@ export class ManageRolesComponent implements OnInit {
         // console.log(updateValue);
       },
       error: (err) => {
-        console.log(err);
+        // console.log(err);
       }
     })
   }

@@ -104,7 +104,7 @@ export class ManageQuestionsModalComponent implements OnInit {
     } */
 
     if (this.questionUpdateForm.valid) {
-      console.log(this.questionUpdateForm.value);
+      // console.log(this.questionUpdateForm.value);
     }
   }
 

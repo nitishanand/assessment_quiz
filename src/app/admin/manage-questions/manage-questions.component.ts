@@ -98,8 +98,8 @@ export class ManageQuestionsComponent implements OnInit {
 
   deleteQuestion(roleid) {
     this.quizQuestionsService.deleteQuestion(roleid).subscribe({
-      next: (data) => console.log(data),
-      error: (err) => console.log(err),
+      next: (data) => {},
+      error: (err) => {},
       complete: () => {
         this.fetchRoleData(this.userSelectedRole);
       }
@@ -191,11 +191,6 @@ export class ManageQuestionsComponent implements OnInit {
     // subscribe to the reference opened dialog once it is closed and check for the data update value
     this.confirmDialogRef.afterClosed().subscribe({
       next: (updateValue) => {
-        /* this.isDataUpdated = updateValue;
-
-        if (this.isDataUpdated) {
-          this.fetchRoleData(this.userSelectedRole);
-        } */
         this.dataToDelete = updateValue.deleteData;
         this.roleID = updateValue.deleteDataId;
 

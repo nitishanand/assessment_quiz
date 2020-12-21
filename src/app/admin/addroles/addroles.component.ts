@@ -30,28 +30,12 @@ export class AddrolesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    /* this.rolesSub = this.rolesService
-      .getRoles()
-      .subscribe(
-        roles => this.availableRoles = roles,
-        err => this.error = err,
-        () => {
-          this.rolesLoaded = true;
-        }
-      ); */
     this.getRoles();
   }
 
   getRoles(): void {
     this.rolesSub = this.rolesService
       .getRoles()
-      /* .subscribe(
-        roles => this.availableRoles = roles,
-        err => this.error = err,
-        () => {
-          this.rolesLoaded = true;
-        }
-      ); */
       .subscribe({
         next: (roles) => this.availableRoles = roles,
         error: (err) => this.error = err,
@@ -73,14 +57,8 @@ export class AddrolesComponent implements OnInit {
 
     this.rolesService
       .addRole(role)
-      /* .subscribe(
-        data => console.log(data),
-        err => {
-          this.serviceErrorMessage = err;
-        }
-      ); */
       .subscribe({
-        next: (data) => console.log(data),
+        next: (data) => {},
         error: (err) => this.serviceErrorMessage = err,
         complete: () => this.getRoles()
       })

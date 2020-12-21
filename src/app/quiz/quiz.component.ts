@@ -240,7 +240,7 @@ export class QuizComponent implements OnInit {
     if (this.assessmentCompleted) {
       this.userDetails.push(this.assessmentScore);
 
-      console.log(this.userDetails);
+      // console.log(this.userDetails);
 
       const user: User = {
         name: this.userDetails[0],
@@ -250,11 +250,11 @@ export class QuizComponent implements OnInit {
         score: this.userDetails[4]
       };
 
-      console.log(`Internet connection: ${this.internetConnectivity}`);
+      // console.log(`Internet connection: ${this.internetConnectivity}`);
 
       if (this.internetConnectivity) {
         this.usersService.addUserScore(user).subscribe(
-          data => console.log(data),
+          data => {},
           err => this.error = err,
           () => {
             // after 5 seconds, the user will be redirected to register page and user information from the session will be cleared immediately
@@ -278,7 +278,8 @@ export class QuizComponent implements OnInit {
       if (sessionStorage.getItem(key)) {
         return JSON.parse(sessionStorage.getItem(key));
       } else {
-        console.log('does not exist');
+        // console.log('does not exist');
+        return false;
       }
     }
   }

@@ -22,17 +22,8 @@ export class RolesService {
   }
 
   getRoles() {
-    /* return this.httpClient.get<any[]>(api_url + '/api/v1/roles').pipe(
-      catchError(this.handleError)
-    ); */
     return this.httpClient.get<any[]>(api_url + '/api/v1/roles');
   }
-
-  /* updateRole(id) {
-    // let params = new HttpParams().set('id', queryParams);
-
-    return this.httpClient.put(api_url + '/api/v1/roles/' + id);
-  } */
 
   updateRole(roleId: string, roleData: Role) {
     return this.httpClient.put<Role>(api_url + '/api/v1/roles' + '/' + roleId, roleData);

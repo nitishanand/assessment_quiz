@@ -6,63 +6,38 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { MaterialModule } from './material.module';
 
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './shared/header/header.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { QuizComponent } from './quiz/quiz.component';
 import { DomchangedirectiveDirective } from './domchangedirective.directive';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, AppRoutingComponents } from './app-routing.module';
 import { StorageServiceModule } from 'angular-webstorage-service';
 
 import { environment } from '../environments/environment';
-// import { AddquestionComponent } from './admin/addquestion/addquestion.component';
+
+// Components
+import { AppComponent } from './app.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ConfirmComponent } from './shared/modals/confirm/confirm.component';
 
 // Services
 import { QuizQuestionsService } from './service/quiz-questions.service';
 import { AuthService } from './service/auth.service';
-import { RegisterComponent } from './register/register.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EventemitterService } from './service/eventemitter.service';
-import { BeginComponent } from './begin/begin.component';
-// import { AddrolesComponent } from './admin/addroles/addroles.component';
-// import { ViewusersComponent } from './admin/viewusers/viewusers.component';
 import { ConnectionService } from 'ng-connection-service';
 import { ToastrModule } from 'ngx-toastr';
-import { CreateuserComponent } from './createuser/createuser.component';
-import { ProfileComponent } from './profile/profile.component';
 import { AuthGuardService } from './guards/auth-guard.service';
-// import { LoginComponent } from './login/login.component';
-// import { ManageQuestionsComponent } from './admin/manage-questions/manage-questions.component';
 import { InterceptorService } from './service/interceptor.service';
-import { LoaderComponent } from './shared/loader/loader.component';
 import { LoaderService } from './service/loader.service';
-// import { ManageQuestionsModalComponent } from './shared/managequestionsmodal/managequestionsmodal.component';
-// import { AdminComponent } from './admin/admin/admin.component';
+import { TokenInterceptorService } from './service/token-interceptor.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminModule } from './admin/admin.module';
-import { ConfirmComponent } from './shared/modals/confirm/confirm.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    QuizComponent,
     DomchangedirectiveDirective,
-    // LoginComponent,
-    // AddquestionComponent,
-    RegisterComponent,
     PageNotFoundComponent,
-    BeginComponent,
-    // AddrolesComponent,
-    // ViewusersComponent,
-    CreateuserComponent,
-    ProfileComponent,
-    // ManageQuestionsComponent,
-    LoaderComponent,
-    // ManageQuestionsModalComponent,
     ConfirmComponent,
-    // AdminComponent
+    AppRoutingComponents
   ],
   imports: [
     BrowserModule,
@@ -76,14 +51,20 @@ import { ConfirmComponent } from './shared/modals/confirm/confirm.component';
     ToastrModule.forRoot(),
     NgbModule,
     AdminModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
   providers: [QuizQuestionsService,AuthService,EventemitterService,ConnectionService,AuthGuardService,LoaderService,
     {
       provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmComponent]

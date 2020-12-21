@@ -1,0 +1,23 @@
+<h3>Verify Email</h3>
+
+<form [formGroup]="tokenVerifyForm" action="" (ngSubmit)="verifyEmail(tokenVerifyForm.value)">
+  <!-- <input type="text" name="token" id="token" ngModel #token="ngModel" placeholder="secret token">
+  <button type="submit">Verify</button> -->
+
+  <div class="form-group">
+    <label for="name">Secret Token</label>
+    <input type="text" placeholder="Secret Token" class="form-control" formControlName="token">
+
+    <!-- error messages -->
+    <!-- <div class="alert alert-danger" *ngIf="(registerFormControl.name.touched) && (registerFormControl.name.errors?.required)">
+      Name is required
+    </div>
+    <div class="alert alert-danger" *ngIf="(registerFormControl.name.touched) && (registerFormControl.name.errors?.minlength)">
+      Minimum 3 characters required!!
+    </div> -->
+
+    <button type="submit" class="btn btn-primary" [disabled]="tokenVerifyForm.invalid" [ngClass]="tokenVerifyForm.invalid ? 'disabled' : ''">
+      Verify
+    </button>
+  </div>
+</form>

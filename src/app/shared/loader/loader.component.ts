@@ -8,6 +8,7 @@ import { LoaderService } from 'src/app/service/loader.service';
   styleUrls: ['./loader.component.css']
 })
 export class LoaderComponent implements OnInit {
+  // source: https://firstclassjs.com/display-a-loader-on-every-http-request-using-interceptor-in-angular-7/
   color = 'primary';
   mode = 'indeterminate';
   value = 50;
